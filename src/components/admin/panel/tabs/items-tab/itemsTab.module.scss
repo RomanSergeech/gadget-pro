@@ -1,0 +1,139 @@
+
+.table {
+
+  ul {
+    grid-template-columns: 96px 1fr 180px 250px 220px;
+  }
+
+  li {
+
+    &[data-available='available'] {
+      color: var(--color-green);
+    }
+    &[data-available='unavailable'] {
+      color: var(--color-orange);
+    }
+
+    &.image {
+      img {
+        max-width: 100%;
+        max-height: 100px;
+        height: auto;
+        border-radius: 4px;
+        margin: 0 auto;
+      }
+    }
+
+    &.url {
+      overflow-x: auto;
+      white-space: nowrap;
+
+      &::-webkit-scrollbar {
+        width: 2px;
+        height: 2px;
+      }
+      &::-webkit-scrollbar-track {
+          background-color: transparent;
+      }
+      &::-webkit-scrollbar-thumb {
+          background-color: transparent;
+          border-radius: 4px;
+      }
+    }
+
+    &.btns {
+      display: flex;
+      gap: 6px;
+  
+      & > button {
+        width: 100%;
+        padding: 10px 16px;
+  
+        &:last-of-type {
+          width: max-content;
+          padding: 10px;
+        }
+  
+        svg {
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+  }
+
+}
+
+.item_modal {
+  form {
+    padding-bottom: 10px;
+
+    textarea {
+      min-height: 200px;
+    }
+  }
+}
+
+.edit_button {
+  background-color: var(--color-orange);
+}
+
+.delete_button {
+  background-color: var(--color-red-light);
+}
+.delete_modal {
+  min-width: 250px;
+  min-height: auto;
+
+  button {
+    &[type='submit'] {
+      width: 100%;
+    }
+  }
+}
+
+.text_repeater_container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  & > input {
+    display: none;
+  }
+
+  label {
+    color: var(--color-grey);
+    font-size: 12px;
+    margin-left: 8px;
+  }
+
+  & > div {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+
+    button {
+      height: 100%;
+      width: 40px;
+      padding: 0;
+      border-color: var(--color-red);
+      background-color: transparent;
+
+      svg {
+        height: 16px;
+
+        path {
+          stroke: var(--color-text);
+        }
+      }
+    }
+  }
+
+  & > button {
+    width: 100%;
+    border-color: var(--color-green);
+    background-color: transparent;
+    color: var(--color-text);
+    padding: 8px;
+  }
+}

@@ -1,0 +1,25 @@
+
+.categories {
+  display: grid;
+  align-items: start;
+  align-content: start;
+  gap: 15px;
+  background-color: #F7F7F8;
+  border: 1px solid #E9E9E9;
+  border-radius: 8px;
+  padding: 20px;
+
+  font-size: 17px;
+  font-weight: 500;
+
+  ul {
+    display: grid;
+    gap: 15px;
+
+    & > ul {
+      display: grid;
+      gap: 15px;
+      padding-left: 20px;
+    }
+  }
+}

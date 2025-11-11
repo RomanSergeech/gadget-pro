@@ -1,0 +1,10 @@
+
+.page_body {
+  padding: 40px 0 60px 0;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-columns: 320px 1fr;
+  align-content: start;
+  align-items: start;
+  gap: 30px;
+}

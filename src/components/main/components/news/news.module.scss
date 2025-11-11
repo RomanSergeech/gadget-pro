@@ -1,0 +1,24 @@
+
+.news {
+  display: grid;
+  gap: 30px;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  justify-items: end;
+  align-items: center;
+
+  h2 {
+    grid-column: 2/3;
+    font-size: 22px;
+    font-weight: 400;
+  }
+}
+
+.news_conatiner {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}

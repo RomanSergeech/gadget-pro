@@ -1,0 +1,67 @@
+
+.toggle_wrapper {
+  display: grid;
+  gap: 6px;
+
+  & > div {
+    height: 48px;
+    display: flex;
+    align-items: center;
+  }
+
+  label {
+    color: var(--color-grey);
+    font-size: 12px;
+  }
+}
+
+.toggle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 28px;
+  width: 48px;
+  background-color: var(--color-red);
+  border-radius: 16px;
+  padding: 2px;
+
+  user-select: none;
+  cursor: pointer;
+
+  &[data-active='true'] {
+     background-color: var(--color-green);
+
+     span {
+        transform: translate(78%, 0);
+     }
+  }
+
+  &[data-disabled='true'] {
+    pointer-events: none;
+    user-select: none;
+  }
+
+  input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  span {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     width: auto;
+     height: 100%;
+     aspect-ratio: 1/1;
+     background-color: #fff;
+     border-radius: 50%;
+     transition: all .1s ease-in;
+
+     color: var(--color-black);
+     font-size: 10px;
+  }
+}

@@ -1,0 +1,63 @@
+@forward "./reset.scss";
+
+:root {
+  --color-main: #CE4233;
+  --color-bg: #FFFFFF;
+  --color-text: #222222;
+  --color-white: #FFFFFF;
+  --color-light-grey: #E8E8E8;
+  --color-grey: #7A7A7A;
+  --color-red-light: #FF7174;
+  --color-orange: #F5AC00;
+  --color-green: #02A705;
+  --color-red: #CE4233;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  overflow-x: hidden;
+}
+
+body {
+  min-height: 100vh;
+  grid-template-rows: auto 1fr auto;
+  color: var(--text);
+  font-weight: 400;
+  background-color: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin-right: calc(-1 * (100vw - 100%));
+}
+
+body,
+.full-width {
+  --padding-inline: 32px;
+  --max-width: 1440px;
+
+  display: grid;
+  grid-template-columns: [full-width-start] minmax(var(--padding-inline), 1fr) [content-start] min(100% - (var(--padding-inline) * 2), var(--max-width)) [content-end] minmax(var(--padding-inline), 1fr) [full-width-end];
+
+  @media (max-width: 1200px) {
+    --padding-inline: 32px;
+  }
+  @media (max-width: 600px) {
+    --padding-inline: 16px;
+  }
+  
+  & > :not(.full-width) {
+    grid-column: content;
+  }
+
+  & > .full-width {
+    grid-column: full-width;
+  }
+
+  .full-width {
+    display: grid;
+    grid-template-columns: inherit;
+  }
+}
