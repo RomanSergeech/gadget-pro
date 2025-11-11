@@ -3,7 +3,7 @@ import { devtools } from 'zustand/middleware'
 import ApiService from '../api/api.service'
 import { tryCatch } from '../utils'
 
-import type { TAddCategoryRequest, TDeleteCategoryRequest, TDeleteItemRequest, TEditCategoryRequest, TLoginRequest } from '../types/api.types'
+import type { TDeleteCategoryRequest, TDeleteItemRequest, TLoginRequest } from '../types/api.types'
 import type { TNewsItem } from '../types/news.types'
 import type { TCategoriesList } from '../types/category.types'
 import type { TItem } from '../types/item.type'

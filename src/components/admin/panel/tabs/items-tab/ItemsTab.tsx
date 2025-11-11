@@ -45,7 +45,7 @@ const ItemsTab = ({  }: Props) => {
             <li><Link href={item.preview} >{item.name}</Link></li>
             <li>{getPrice(item.price)}</li>
             <li data-available={item.available} >
-              {ItemAvailability[item.available as keyof typeof ItemAvailability].value}
+              {ItemAvailability[item.available as keyof typeof ItemAvailability]?.value}
             </li>
             <li className={c.btns} >
               <EditButton data={item} />

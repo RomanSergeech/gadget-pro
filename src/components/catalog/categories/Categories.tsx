@@ -19,9 +19,9 @@ const Categories = () => {
   const categories = useMainStore(state => state.categories)
   const query = useCategoriesStore(state => state.query)
 
-  const debouncedSearchValue = useDebounce(query, 700);
+  const debouncedSearchValue = useDebounce(query, 700)
 
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams()
   const pathname = usePathname()
 
   useEffect(() => {

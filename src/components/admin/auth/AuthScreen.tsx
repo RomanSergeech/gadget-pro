@@ -49,7 +49,7 @@ const AuthScreen = () => {
         <Logo className={c.logo} />
 
         <div className={c.loader_wrapper} >
-          {isSending && <Loader width={100} fontSize={12} />}
+          {isSending && <Loader fontSize={12} />}
         </div>
 
         <Input

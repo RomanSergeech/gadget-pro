@@ -1,5 +1,4 @@
 import { Inter } from "next/font/google"
-import { Alert } from "@/shared/UI/alert/Alert"
 
 import type { Metadata } from "next"
 

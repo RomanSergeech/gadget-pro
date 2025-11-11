@@ -1,9 +1,10 @@
-
-import type { TNewsItem } from '@/shared/types/main.types'
-import c from './newsCard.module.scss'
-import { Button } from '../button/Button'
 import Link from 'next/link'
+import { Button } from '../button/Button'
 import { Pages } from '@/shared/config/pages.config'
+
+import type { TNewsItem } from '@/shared/types/news.types'
+
+import c from './newsCard.module.scss'
 
 
 interface Props {

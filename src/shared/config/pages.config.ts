@@ -30,6 +30,6 @@ const getCategories = ( cat_key: string, categories: TCategoriesList ) => {
   return arr.join('%2C')
 }
 
-const getParents = () => {
+// const getParents = () => {
 
-}
+// }

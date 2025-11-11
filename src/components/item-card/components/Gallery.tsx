@@ -1,10 +1,9 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { Swiper as SwiperElem, SwiperSlide } from 'swiper/react'
-import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
+import { FreeMode, Thumbs } from 'swiper/modules';
 
-import type { SwiperRef } from 'swiper/react'
 
 import c from '../itemCard.module.scss'
 import type Swiper from 'swiper'
@@ -19,8 +18,6 @@ interface Props {
 const Gallery = ({  }: Props) => {
 
   const [thumbsSwiper, setThumbsSwiper] = useState<Swiper|null>(null)
-
-  const swiperRef = useRef<SwiperRef>(null)
 
   return (
     <div className={c.gallery} >
