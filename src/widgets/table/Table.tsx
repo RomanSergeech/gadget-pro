@@ -3,6 +3,7 @@
 import { arrayFromTo, cn } from '@/shared/utils'
 
 import c from './table.module.scss'
+import { Loader } from '@/shared/UI'
 
 interface TTitlesElemsBase {
   value: string,
@@ -72,7 +73,7 @@ const Table: TTable = ({ titles, columns, total, emptyData, loading, emptyTotal,
     return (
       <div className={cn(c.table, tableClassName)} >
         <ul className={c.empty_data} >
-          {loadingText || 'Loading...'}
+          {loadingText || <Loader fontSize={12} />}
         </ul>
       </div>
     )

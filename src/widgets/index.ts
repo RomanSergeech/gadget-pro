@@ -1,4 +1,6 @@
 
+export { OrderModal } from "./order-modal/OrderModal"
+
 export { Table } from "./table/Table"
 
 export { Items } from "./items/Items"

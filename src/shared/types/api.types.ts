@@ -38,6 +38,7 @@ export type TQueryItemDataResponse = {
 }
 
 export type TQueryItemsListRequest = {
+  ids?: string[]
   page?: number
   cat_keys?: string[]
   pricemin?: number
@@ -83,3 +84,18 @@ export type TDeleteCategoryRequest = {
   cat_key: string
 }
 export type TDeleteCategoryResponse = TGetCategoriesListResponse
+
+export type TMakeOrderRequest = {
+  items: {
+    item: TItem
+    count: number
+    amount: number
+  }[]
+  name: string
+  phone: string
+  email: string
+  message: string
+}
+export type TMakeOrderResponse = {
+  order_id: string
+}

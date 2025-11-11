@@ -6,6 +6,7 @@ import type { TNewsItem } from '../types/news.types'
 import type { TCategoriesList, TCategory } from '../types/category.types'
 import type { TItem } from '../types/item.type'
 import type { TSlide } from '../types/slide.types'
+import type { TMakeOrderRequest } from '../types/api.types'
 
 
 interface TState {
@@ -17,10 +18,12 @@ interface TState {
   categories_list: TCategory[]
   categories: TCategoriesList
   loading: boolean
+  order_id: string | null
 }
 
 interface TStore extends TState {
-  queryMainData: () => void
+  queryMainData: () => Promise<void>
+  makeOrder: ( sendData: TMakeOrderRequest ) => Promise<void>
 }
 
 const initialState: TState = {
@@ -31,7 +34,8 @@ const initialState: TState = {
   news: [],
   categories_list: [],
   categories: { arr: [], obj: {} },
-  loading: false
+  loading: false,
+  order_id: null
 }
 
 export const useMainStore = create<TStore>(
@@ -53,6 +57,19 @@ export const useMainStore = create<TStore>(
           categories: data.categories.list,
           categories_list: data.categories.show
         })
+      },
+      onFinally: () => {
+        set({ loading: false })
+      }
+    }),
+
+    makeOrder: ( sendData ) => tryCatch({
+      callback: async () => {
+        set({ loading: true })
+
+        const { data } = await ApiService.makeOrder(sendData)
+
+        set({ order_id: data.order_id })
       },
       onFinally: () => {
         set({ loading: false })

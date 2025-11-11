@@ -76,6 +76,10 @@
       }
     }
 
+    &.total {
+      padding: 14px 0;
+    }
+
     &.empty_data {
       height: max-content;
       display: flex;

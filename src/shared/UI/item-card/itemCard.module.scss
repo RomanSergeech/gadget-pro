@@ -64,6 +64,10 @@
 
     span {
       color: var(--color-green);
+
+      &[data-available='unavailable'] {
+        color: var(--color-orange);
+      }
     }
   }
 }
@@ -79,4 +83,8 @@
 .price {
   font-size: 15px;
   font-weight: 500;
+}
+
+.in_cart_button {
+  background-color: var(--color-orange);
 }
