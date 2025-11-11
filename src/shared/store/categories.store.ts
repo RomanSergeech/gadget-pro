@@ -40,9 +40,15 @@ export const useCategoriesStore = create<TStore>(
 
     queryItemsList: () => tryCatch({
       callback: async () => {
-        set({ loading: true })
+        set({ loading: true, list: [] })
 
         const query = get().query
+
+        await new Promise((res) => {
+          setTimeout(() => {
+            res(true)
+          }, 2000)
+        })
 
         const { data } = await ApiService.queryItemsList(query)
 

@@ -1,14 +1,16 @@
+import { cn } from '@/shared/utils'
 
 import c from './loader.module.scss'
 
 interface Props {
   fontSize?: number
   fullScreen?: true
+  className?: string
 }
-const Loader = ({ fontSize=16, fullScreen }: Props) => {
+const Loader = ({ fontSize=16, fullScreen, className }: Props) => {
 
   const Elem = (
-    <div className={c.loader} style={{ fontSize }} >
+    <div className={cn(c.loader, className)} style={{ fontSize }} >
       Загрузка
     </div>
   )

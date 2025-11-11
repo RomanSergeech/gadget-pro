@@ -1,13 +1,14 @@
 'use client'
 
 import { useCategoriesStore } from '@/shared/store/categories.store'
-import { ItemCard, Pagination } from '@/shared/UI'
+import { ItemCard, Loader, Pagination } from '@/shared/UI'
 
 import c from './list.module.scss'
 
 
 const List = () => {
 
+  const loading = useCategoriesStore(state => state.loading)
   const list = useCategoriesStore(state => state.list)
   const pages = useCategoriesStore(state => state.pages)
   const page = useCategoriesStore(state => state.page)
@@ -27,6 +28,12 @@ const List = () => {
       {list.map(item => (
         <ItemCard key={item.id} item={item} />
       ))}
+
+      {loading && (
+        <div className={c.loader_wrapper} >
+          <Loader fontSize={12} />
+        </div>
+      )}
 
     </div>
 
