@@ -3,6 +3,8 @@
   padding: 40px 0 60px 0;
   display: grid;
   grid-template-columns: auto 1fr;
+  align-content: start;
+  align-items: start;
   gap: 40px;
 }
 
@@ -63,11 +65,13 @@
 
   & > div {
     max-width: 400px;
+    max-height: 400px;
 
     .slide {
       width: 100%;
       height: auto;
       aspect-ratio: 1/1;
+      cursor: pointer;
     }
 
     img {
@@ -86,6 +90,10 @@
 
   & > div {
     max-height: 400px;
+
+    .slide {
+      cursor: pointer;
+    }
 
     img {
       width: 100%;
@@ -121,18 +129,23 @@
     align-items: center;
     gap: 30px;
 
-    p {
+    & > p {
       font-size: 18px;
       font-weight: 500;
       padding-left: 30px;
     }
 
     button {
-      height: 100%;
+      height: 45px;
       padding: 10px 30px;
 
-      &:nth-of-type(2) {
+      &.order_button {
         background-color: var(--color-orange);
+      }
+
+      &.in_cart_button {
+        background-color: var(--color-grey);
+        padding: 10px 30px 10px 24px;
       }
     }
   }
