@@ -19,32 +19,38 @@ const Categories = () => {
   const categories = useMainStore(state => state.categories)
   const query = useCategoriesStore(state => state.query)
 
-  const debouncedSearchValue = useDebounce(query, 700)
+  const debouncedSearchValue = useDebounce(query, 500)
 
   const searchParams = useSearchParams()
   const pathname = usePathname()
 
   useEffect(() => {
-    const params = new URLSearchParams(searchParams)
-    const cats = params.get('categories')?.split(',')
-    const page = params.get('page') || undefined
-    const pricemin = params.get('pricemin') || undefined
-    const pricemax = params.get('pricemax') || undefined
-    const pricesort = (params.get('pricesort') as TQueryItemsListRequest['pricesort']) || undefined
-    const available = (params.get('available') as TQueryItemsListRequest['available']) || undefined
-    useCategoriesStore.getState().setQueryParams({
-      page: +(page||1),
-      cat_keys: cats || [],
-      pricemin: pricemin ? +pricemin : undefined,
-      pricemax: pricemax ? +pricemax : undefined,
-      pricesort,
-      available
-    })
-    useCategoriesStore.getState().queryItemsList()
+    if ( categories ) {
+      const params = new URLSearchParams(searchParams)
+      const cats = params.get('categories')?.split(',')
+      const page = params.get('page') || undefined
+      const pricemin = params.get('pricemin') || undefined
+      const pricemax = params.get('pricemax') || undefined
+      const pricesort = (params.get('pricesort') as TQueryItemsListRequest['pricesort']) || undefined
+      const available = (params.get('available') as TQueryItemsListRequest['available']) || undefined
+      
+      useCategoriesStore.getState().setQueryParams({
+        page: +(page||1),
+        cat_keys: cats || [],
+        pricemin: pricemin ? +pricemin : undefined,
+        pricemax: pricemax ? +pricemax : undefined,
+        pricesort,
+        available
+      })
+    }
+
+    return () => {
+      useCategoriesStore.setState({ list: [], query: {} })
+    }
   }, [])
 
   useEffect(() => {
-    if ( debouncedSearchValue ) {
+    if ( debouncedSearchValue && Object.keys(debouncedSearchValue).length > 0 ) {
 
       useCategoriesStore.getState().queryItemsList()
 

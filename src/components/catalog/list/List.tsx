@@ -15,7 +15,7 @@ const List = () => {
 
   const choosePage = ( page: number ) => {
     useCategoriesStore.getState().setQueryParams({ page })
-    useCategoriesStore.getState().queryItemsList()
+    // useCategoriesStore.getState().queryItemsList()
   }
 
   return (<>
