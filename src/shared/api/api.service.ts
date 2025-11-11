@@ -5,7 +5,7 @@ import type { TAddCategoryResponse, TAddItemResponse, TCheckAuthResponse, TDelet
 
 
 const $api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_DOMAIN,
+  baseURL: 'https://w0wchmds-4500.euw.devtunnels.ms',
   withCredentials: true
 })
 
