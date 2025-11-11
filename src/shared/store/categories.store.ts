@@ -44,12 +44,6 @@ export const useCategoriesStore = create<TStore>(
 
         const query = get().query
 
-        await new Promise((res) => {
-          setTimeout(() => {
-            res(true)
-          }, 2000)
-        })
-
         const { data } = await ApiService.queryItemsList(query)
 
         set({ ...data })
