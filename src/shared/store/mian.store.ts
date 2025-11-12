@@ -34,7 +34,7 @@ const initialState: TState = {
   news: [],
   categories_list: [],
   categories: { arr: [], obj: {} },
-  loading: false,
+  loading: true,
   order_id: null
 }
 
