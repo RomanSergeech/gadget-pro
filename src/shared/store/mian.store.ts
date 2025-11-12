@@ -22,9 +22,8 @@ interface TState {
   common: {
     payinfo: string
     about: string
-    phones: string[]
+    phones: string
     address: string
-    work_time: string
   }
 }
 
@@ -46,9 +45,8 @@ const initialState: TState = {
   common: {
     payinfo: '',
     about: '',
-    phones: [],
+    phones: '',
     address: '',
-    work_time: '',
   }
 }
 

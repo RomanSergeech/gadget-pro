@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useLayoutEffect } from "react"
+import { useEffect } from "react"
 import { useCartStore } from "@/shared/store/cart.store"
 import { useMainStore } from "@/shared/store/mian.store"
 import { Footer, Header } from "@/widgets"

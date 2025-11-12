@@ -1,11 +1,9 @@
 import { create } from 'zustand'
 import { tryCatch } from '../utils'
 import ApiService from '../api/api.service'
-import { useMainStore } from './mian.store'
 
 import type { TQueryItemsListRequest } from '../types/api.types'
 import type { TItem } from '../types/item.type'
-import type { TCategory } from '../types/category.types'
 
 
 export type TDeepObj = {
