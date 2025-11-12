@@ -38,7 +38,7 @@ const Gallery = ({  }: Props) => {
       
       <SwiperElem
         spaceBetween={10}
-        slidesPerView={4}
+        slidesPerView={3}
         freeMode={true}
         watchSlidesProgress={true}
         modules={[FreeMode, Thumbs]}
@@ -46,6 +46,11 @@ const Gallery = ({  }: Props) => {
         loop
         direction={'vertical'}
         className={c.images_wrapper}
+        breakpoints={{
+          1000: {
+            slidesPerView: 4
+          }
+        }}
       >
         {IMAGES.map((el, i) => (
           <SwiperSlide key={i} className={c.slide} >

@@ -4,6 +4,11 @@
   display: grid;
   align-content: start;
   gap: 40px;
+
+  @media (max-width: 900px) {
+    padding: 10px 0 40px 0;
+    gap: 10px;
+  }
 }
 
 .top {
@@ -54,7 +59,11 @@
 .table {
 
   ul {
-    grid-template-columns: 2fr repeat(3, 1fr) 120px;
+    grid-template-columns: 2fr repeat(3, 1fr) 7.5em;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 2fr repeat(3, 8em) 7.5em;
+    }
   }
 
   li {
@@ -72,10 +81,18 @@
       align-content: center;
       gap: 10px;
 
+      @media (max-width: 1000px) {
+        grid-template-columns: 1fr;
+      }
+
       .image_wrapper {
         grid-row: 1/5;
-        width: 100px;
-        height: 100px;
+        width: 6.25em;
+        height: 6.25em;
+
+        @media (max-width: 1000px) {
+          grid-row: auto; 
+        }
       }
       img {
         width: auto;
@@ -86,14 +103,14 @@
 
       a {
         grid-row: 2/3;
-        font-size: 16px;
+        font-size: 1em;
         font-weight: 500;
       }
 
       span {
         grid-row: 3/4;
         color: var(--color-green);
-        font-size: 14px;
+        font-size: 0.875em;
 
         &[data-available='unavailable'] {
           color: var(--color-red-light);
@@ -111,19 +128,30 @@
         border: 1px solid var(--color-light-grey);
         border-radius: 8px;
 
+        @media (max-width: 768px) {
+          width: 100%;
+          justify-items: center;
+          padding: 4px;
+        }
+
         input {
+          font-size: 1.125em;
           text-align: center;
-          width: 40px;
-          font-size: 18px;
+          width: 2.222em;
         }
 
         button {
-          width: 40px;
-          height: 40px;
-          font-size: 18px;
+          width: 2.222em;
+          height: 2.222em;
+          font-size: 1.125em;
           transition: border .3s ease;
           border: 2px solid transparent;
           border-radius: 8px;
+
+          @media (max-width: 768px) {
+            width: max-content;
+            height: 100%; 
+          }
 
           &:hover {
             border: 2px solid var(--color-light-grey);
@@ -133,8 +161,34 @@
     }
 
     &.total_count {
+      @media (max-width: 768px) {
+        grid-column: 1/2;
+
+        & > div {
+          grid-template-columns: auto 1fr auto;
+        }
+      }
+
       button, input {
         pointer-events: none;
+      }
+    }
+
+    &.total_amount {
+      @media (max-width: 768px) {
+        grid-column: 2/3;
+      }
+    }
+
+    &.empty {
+      @media (max-width: 768px) {
+        display: none;
+      }
+    }
+
+    &.total_btns {
+      @media (max-width: 768px) {
+        grid-column: 3/5; 
       }
     }
 
@@ -155,15 +209,15 @@
         }
 
         svg {
-          width: 22px;
-          height: 22px;
+          width: 1.375em;
+          height: 1.375em;
         }
       }
 
       .order_button {
         padding: 12px 30px;
         margin-right: 10px;
-        font-size: 16px;
+        font-size: 1em;
         font-weight: 600;
       }
     }

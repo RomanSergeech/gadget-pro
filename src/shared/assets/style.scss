@@ -26,11 +26,19 @@ body {
   min-height: 100vh;
   grid-template-rows: auto 1fr auto;
   color: var(--text);
+  font-size: 16px;
   font-weight: 400;
   background-color: var(--bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin-right: calc(-1 * (100vw - 100%));
+
+  @media (max-width: 1000px) {
+    font-size: 14px;
+  }
+  @media (max-width: 768px) {
+    font-size: 12px; 
+  }
 }
 
 body,

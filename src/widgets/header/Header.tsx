@@ -30,7 +30,7 @@ const Header = () => {
   const pathname = usePathname()
 
   return (
-    <header className='full-width' >
+    <header className={cn(c.header, 'full-width')} >
 
       <div className={cn(c.top, 'full-width')} >
         <div>

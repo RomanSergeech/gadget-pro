@@ -17,7 +17,7 @@ const MainPage = () => {
 
   return (
     <main className={cn(c.page_body, 'full-width')} >
-      
+
       <SliderSection />
 
       <Items items={newItems} />

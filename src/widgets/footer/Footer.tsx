@@ -17,7 +17,7 @@ export const MENU = [
 
 const Footer = () => {
   return (
-    <footer className='full-width' >
+    <footer className={cn(c.footer, 'full-width')} >
 
       <div className={cn(c.top, 'full-width')} >
         <div>

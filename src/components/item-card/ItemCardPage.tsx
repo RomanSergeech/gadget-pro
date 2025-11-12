@@ -100,7 +100,10 @@ const ItemCardPage = ({ item_id }: Props) => {
         </ul>
       </div>
 
-      <Items items={items} className={c.items_wrapper} />
+      <Items
+        items={items}
+        className={c.items_wrapper}
+      />
 
     </div>
   )

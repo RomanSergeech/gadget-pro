@@ -122,8 +122,8 @@ const CartPage = () => {
         ))}
         total={(t) => (
           <ul className={t.total} >
-            <li></li>
-            <li></li>
+            <li className={c.empty} ></li>
+            <li className={c.empty} ></li>
             <li className={cn(c.count, c.total_count)} >
               <div>
                 <button></button>
@@ -131,10 +131,10 @@ const CartPage = () => {
                 <button></button>
               </div>
             </li>
-            <li className={c.amount} >
+            <li className={cn(c.amount, c.total_amount)} >
               {getPrice(amount)}
             </li>
-            <li className={c.btns} >
+            <li className={cn(c.btns, c.total_btns)} >
               <OrderModal
                 countItems={countItems}
                 items_count={items_count}

@@ -7,7 +7,7 @@
   gap: 4px;
   height: max-content;
   width: max-content;
-  padding: 10px;
+  padding: min(0.8em, 10px);
   background-color: var(--color-green);
   border-radius: 10px;
   border-width: 2px;
@@ -16,7 +16,7 @@
   box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.14);
   
   color: var(--color-white);
-  font-size: 14px;
+  font-size: min(1.2em, 16px);
   text-align: center;
   user-select: none;
 

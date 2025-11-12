@@ -28,18 +28,19 @@ const Items = ({ items, className }: ItemsProps) => {
 
       <Swiper
         ref={swiperRef}
-        spaceBetween={40}
-        slidesPerView={SLIDES_PER_VIEW}
+        spaceBetween={10}
+        slidesPerView={2}
         breakpoints={{
           1440: {
-            slidesPerView: SLIDES_PER_VIEW
+            slidesPerView: SLIDES_PER_VIEW,
+            spaceBetween: 40
           },
-          900: {
+          1100: {
             slidesPerView: 4,
             spaceBetween: 20
           },
-          480: {
-            slidesPerView: 2,
+          768: {
+            slidesPerView: 3,
             spaceBetween: 20
           }
         }}

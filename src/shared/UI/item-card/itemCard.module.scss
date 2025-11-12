@@ -17,7 +17,7 @@
     border-radius: 16px 0 20px 0;
     padding: 6px 10px;
     color: var(--color-white);
-    font-size: 12px;
+    font-size: 0.75em;
     font-weight: 500;
     z-index: 10;
     box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
@@ -25,7 +25,7 @@
 }
 
 .image_wrapper {
-  height: 200px;
+  height: 12.5em;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -44,7 +44,7 @@
 
 .item_name {
   text-align: center;
-  font-size: 15px;
+  font-size: min(1.2em, 17px);
   font-weight: 500;
   transition: opacity .3s ease;
 
@@ -57,10 +57,10 @@
   width: 100%;
   display: grid;
   gap: 4px;
-  padding-left: 10px;
+  padding-left: 0.625em;
 
   p {
-    font-size: 12px;
+    font-size: 1em;
 
     span {
       color: var(--color-green);
@@ -78,10 +78,20 @@
   justify-content: space-between;
   align-items: center;
   padding-left: 10px;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    align-items: start;
+    gap: 15px;
+
+    button {
+      width: 100%;
+    }
+  }
 }
 
 .price {
-  font-size: 15px;
+  font-size: 1em;
   font-weight: 500;
 }
 

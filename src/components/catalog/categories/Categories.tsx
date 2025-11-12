@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useMainStore } from '@/shared/store/mian.store'
 import { useCategoriesStore } from '@/shared/store/categories.store'
 import { usePathname, useSearchParams } from 'next/navigation'
@@ -18,6 +18,8 @@ const Categories = () => {
   
   const categories = useMainStore(state => state.categories)
   const query = useCategoriesStore(state => state.query)
+
+  const [active, setActive] = useState(false)
 
   const debouncedSearchValue = useDebounce(query, 500)
 
@@ -82,10 +84,18 @@ const Categories = () => {
   }, [debouncedSearchValue])
 
   return (
-    <aside className={c.categories} >
-
+    <aside
+      className={c.categories}
+      data-active={active}
+    >
       <div className={c.category} >
-        <b>Категория товара</b>
+        <div
+          className={c.category_top}
+          onClick={() => setActive(p => !p)}
+        >
+          <b>Категория товара</b>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16.293 9.29297L12 13.586L7.70697 9.29297L6.29297 10.707L12 16.414L17.707 10.707L16.293 9.29297Z" fill="#0D0D0D"/></svg>
+        </div>
         {categories.arr.map(cat => (
           <Category
             key={cat.id}

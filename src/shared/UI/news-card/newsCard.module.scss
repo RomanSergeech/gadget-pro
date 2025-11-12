@@ -1,8 +1,8 @@
 
 .news_card {
-  height: 360px;
+  height: 22.5em;
   display: grid;
-  padding-bottom: 50px;
+  padding-bottom: 3.125em;
 }
 
 .image_wrapper {
@@ -32,9 +32,9 @@
   background-color: var(--color-white);
   border-radius: 10px;
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
-  margin: 0 35px;
-  padding: 30px 30px 20px 30px;
-  transform: translate(0, 50px);
+  margin: 0 2.188em;
+  padding: 1.875em 1.875em 1.25em 1.875em;
+  transform: translate(0, 3.125em);
 
   button {
     justify-self: end;
