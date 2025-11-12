@@ -1,5 +1,7 @@
+import { useEffect } from 'react'
 import { Checkbox } from '@/shared/UI'
-import { useCategoriesStore } from '@/shared/store/categories.store'
+import { useCategoriesStore, type TDeepObj } from '@/shared/store/categories.store'
+import { usePathname, useSearchParams } from 'next/navigation'
 
 import type { TCategory } from '@/shared/types/category.types'
 
@@ -11,43 +13,47 @@ const Category = ({ category, parent_cat_key }: Props) => {
 
   const query = useCategoriesStore(state => state.query)
 
-  const activateCategory = ( cat?: TCategory ) => {
-    if ( !cat ) return
-    const index = query.cat_keys?.findIndex(el => el === cat.key)
-    const cat_keys = query.cat_keys
-    if ( index !== -1 && cat_keys ) {
-      const index = cat_keys.findIndex(el => el === cat.key)
-      if ( index !== -1 ) {
-        cat_keys.splice(index, 1)
-      }
-      const all_keys = cat.children.reduce<string[]>(getKeys, [])
-      all_keys.forEach(key => {
-        const index = cat_keys.findIndex(el => el === key)
-        if ( index !== -1 ) {
-          cat_keys.splice(index, 1)
-        }
-      })
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams)
+    const categoryParam = params.get('category') || undefined
+    if ( categoryParam && category.key === categoryParam ) {
+      const cat_keys = {}
+      addKeyToNestedObject(cat_keys, category.all_parents, category.key, {})
       useCategoriesStore.getState().setQueryParams({ cat_keys })
-      return
+      activateCategory()
+      params.delete('category')
+      const url = `${pathname}?${params.toString()}`
+      window.history.pushState({path:url}, '', url)
     }
-    cat.all_parents.forEach(key => {
-      const index = cat_keys?.findIndex(el => el === key)
-      console.log(cat_keys, index);
-      if ( index === -1 ) {
-        cat_keys?.push(key)
-      }
-    })
-    if ( index === -1 ) {
-      cat_keys?.push(cat.key)
+  }, [])
+
+  const activateCategory = () => {
+    if ( !category ) return
+    const cat_keys = useCategoriesStore.getState().query.cat_keys
+
+    if ( hasKey(query.cat_keys, category.key) ) {
+      removeKeyFromNestedObject(cat_keys, [...category.all_parents, category.key])
+      useCategoriesStore.getState().setQueryParams({ cat_keys })
+      return 
     }
+
+    if ( category.parent_key ) {
+      addKeyToNestedObject(cat_keys, category.all_parents, category.key, {})
+    } else {
+      cat_keys[category.key] = {}
+    }
+
     useCategoriesStore.getState().setQueryParams({ cat_keys })
   }
 
   return (
     <ul>
-      <li data-active={query.cat_keys?.includes(category.key)} >
-        <button onClick={() => activateCategory(category)} >
-          <Checkbox checked={query.cat_keys?.includes(category.key)} onChange={()=>{}} />
+      <li data-active={hasKey(query.cat_keys, category.key)} >
+        <button onClick={() => activateCategory()} >
+          <Checkbox checked={hasKey(query.cat_keys, category.key)} onChange={()=>{}} />
           {category.value}
           <span>{`[${category.items_count}]`}</span>
         </button>
@@ -64,18 +70,48 @@ const Category = ({ category, parent_cat_key }: Props) => {
   )
 }
 
-function getKeys( acc: string[], cat: TCategory ): string[] {
-  acc.push(cat.key)
-  if ( cat?.children.length === 0 ) {
-    return acc
+function hasKey( obj: TDeepObj | undefined, findKey: string ) {
+  if ( !obj ) return false
+  if (findKey in obj) {
+    return true;
   }
-  const arr = cat.children.reduce<string[]>((acc, c) => {
-    return getKeys(acc, c)
-  }, [])
-  arr.forEach(el => {
-    acc.push(el)
-  })
-  return acc
+  for (const key in obj) {
+    if (typeof obj[key] === 'object' && obj[key] !== null) {
+        if ( hasKey(obj[key], findKey) ) {
+          return true
+        }
+    }
+  }
+  return false
+}
+
+function removeKeyFromNestedObject(obj: TDeepObj, path: string[]): boolean {
+  let current = obj;
+  for (let i = 0; i < path.length; i++) {
+    const key = path[i]!
+    if (key in current) {
+      if (i === path.length - 1) {
+        delete current[key]
+        return true
+      } else {
+        current = current[key] as TDeepObj
+      }
+    } else {
+      return false
+    }
+  }
+  return false
+}
+
+function addKeyToNestedObject(obj: TDeepObj, path: string[], newKey: string, value: any) {
+  let current = obj;
+  for (const key of path) {
+    if (!(key in current)) {
+      current[key] = {}
+    }
+    current = current[key] as TDeepObj
+  }
+  current[newKey] = value;
 }
 
 export { Category }

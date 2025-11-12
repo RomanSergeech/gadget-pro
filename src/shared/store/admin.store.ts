@@ -3,7 +3,7 @@ import { devtools } from 'zustand/middleware'
 import ApiService from '../api/api.service'
 import { tryCatch } from '../utils'
 
-import type { TDeleteCategoryRequest, TDeleteItemRequest, TLoginRequest } from '../types/api.types'
+import type { TDeleteCategoryRequest, TDeleteItemRequest, TEditCommonDataRequest, TEditCommonDataResponse, TLoginRequest } from '../types/api.types'
 import type { TNewsItem } from '../types/news.types'
 import type { TCategoriesList } from '../types/category.types'
 import type { TItem } from '../types/item.type'
@@ -17,6 +17,7 @@ interface TState {
   slides: TSlide[]
   categories: TCategoriesList
   news: TNewsItem[]
+  common: TEditCommonDataResponse
 }
 
 interface TStore extends TState {
@@ -30,6 +31,7 @@ interface TStore extends TState {
   addCategory: ( formData: FormData ) => Promise<void>
   editCategory: ( formData: FormData ) => Promise<void>
   deleteCategory: ( sendData: TDeleteCategoryRequest ) => Promise<void>
+  editCommonData: ( sendData: TEditCommonDataRequest ) => Promise<void>
 }
 
 const initialState: TState = {
@@ -39,6 +41,12 @@ const initialState: TState = {
   slides: [],
   news: [],
   categories: { arr: [], obj: {} },
+  common: {
+    payinfo: '',
+    about: '',
+    phones: '',
+    address: ''
+  }
 }
 
 export const useAdminStore = create(
@@ -56,7 +64,7 @@ export const useAdminStore = create(
         })
       },
       onError: () => {
-        localStorage.removeItem('token')
+        // localStorage.removeItem('token')
       },
       onFinally: () => {
         set({ loading: false })
@@ -89,11 +97,12 @@ export const useAdminStore = create(
 
         const items = await ApiService.queryItemsList({})
 
-        const categories = await ApiService.queryCategoriesList()
+        const data = await ApiService.queryMainData()
 
         set({
           items: items.data.list,
-          categories: categories.data.list
+          categories: data.data.categories.list,
+          common: data.data.common
         })
       }
     }),
@@ -161,6 +170,14 @@ export const useAdminStore = create(
         set({
           categories: data.list
         })
+      }
+    }),
+
+    editCommonData: ( sendData ) => tryCatch({
+      callback: async () => {
+
+        await ApiService.editCommonData(sendData)
+
       }
     }),
 

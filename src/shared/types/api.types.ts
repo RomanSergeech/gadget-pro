@@ -28,6 +28,7 @@ export type TGetMainDataResponse = {
   }
   slides: TSlide[]
   news: TNewsItem[]
+  common: TEditCommonDataResponse
 }
 
 export type TQueryItemDataRequest = {
@@ -40,7 +41,7 @@ export type TQueryItemDataResponse = {
 export type TQueryItemsListRequest = {
   ids?: string[]
   page?: number
-  cat_keys?: string[]
+  cat_keys?: string[][]
   pricemin?: number
   pricemax?: number
   pricesort?: 'asc' | 'desc'
@@ -98,4 +99,17 @@ export type TMakeOrderRequest = {
 }
 export type TMakeOrderResponse = {
   order_id: string
+}
+
+export type TEditCommonDataRequest = {
+  payinfo: string
+  about: string
+  phones: string
+  address: string
+}
+export type TEditCommonDataResponse = {
+  payinfo: string
+  about: string
+  phones: string
+  address: string
 }

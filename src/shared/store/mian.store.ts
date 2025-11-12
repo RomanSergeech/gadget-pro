@@ -19,6 +19,13 @@ interface TState {
   categories: TCategoriesList
   loading: boolean
   order_id: string | null
+  common: {
+    payinfo: string
+    about: string
+    phones: string[]
+    address: string
+    work_time: string
+  }
 }
 
 interface TStore extends TState {
@@ -35,7 +42,14 @@ const initialState: TState = {
   categories_list: [],
   categories: { arr: [], obj: {} },
   loading: true,
-  order_id: null
+  order_id: null,
+  common: {
+    payinfo: '',
+    about: '',
+    phones: [],
+    address: '',
+    work_time: '',
+  }
 }
 
 export const useMainStore = create<TStore>(
@@ -55,7 +69,8 @@ export const useMainStore = create<TStore>(
           slides: data.slides,
           news: data.news,
           categories: data.categories.list,
-          categories_list: data.categories.show
+          categories_list: data.categories.show,
+          common: data.common
         })
       },
       onFinally: () => {

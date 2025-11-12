@@ -3,15 +3,13 @@
 import { useEffect, useState } from 'react'
 import { useMainStore } from '@/shared/store/mian.store'
 import { useCategoriesStore } from '@/shared/store/categories.store'
-import { usePathname, useSearchParams } from 'next/navigation'
 import { Category } from './components/Category'
 import { Price } from './components/Price'
 import { useDebounce } from '@/shared/hooks'
 import { Availability } from './components/Availability'
 
-import type { TQueryItemsListRequest } from '@/shared/types/api.types'
-
 import c from './categories.module.scss'
+import { useSearchParams } from 'next/navigation'
 
 
 const Categories = () => {
@@ -24,62 +22,19 @@ const Categories = () => {
   const debouncedSearchValue = useDebounce(query, 500)
 
   const searchParams = useSearchParams()
-  const pathname = usePathname()
 
   useEffect(() => {
-    if ( categories ) {
-      const params = new URLSearchParams(searchParams)
-      const cats = params.get('categories')?.split(',')
-      const page = params.get('page') || undefined
-      const pricemin = params.get('pricemin') || undefined
-      const pricemax = params.get('pricemax') || undefined
-      const pricesort = (params.get('pricesort') as TQueryItemsListRequest['pricesort']) || undefined
-      const available = (params.get('available') as TQueryItemsListRequest['available']) || undefined
-      
-      useCategoriesStore.getState().setQueryParams({
-        page: +(page||1),
-        cat_keys: cats || [],
-        pricemin: pricemin ? +pricemin : undefined,
-        pricemax: pricemax ? +pricemax : undefined,
-        pricesort,
-        available
-      })
-    }
-
     return () => {
-      useCategoriesStore.setState({ list: [], query: {} })
+      useCategoriesStore.setState({ list: [], query: { cat_keys: {} } })
     }
   }, [])
 
   useEffect(() => {
-    if ( debouncedSearchValue && Object.keys(debouncedSearchValue).length > 0 ) {
+    const params = new URLSearchParams(searchParams)
+    const categoryParam = params.get('category') || undefined
 
+    if ( debouncedSearchValue && Object.keys(debouncedSearchValue).length > 0 && !categoryParam ) {
       useCategoriesStore.getState().queryItemsList()
-
-      const params = new URLSearchParams(searchParams)
-
-      const { cat_keys, pricemin, pricemax, pricesort, available, page } = debouncedSearchValue
-
-      if ( !cat_keys || cat_keys?.length === 0 || cat_keys[0] === '' ) params.delete('categories')
-      else params.set('categories', cat_keys.join(','))
-
-      if ( page ) params.set('page', ''+page)
-      else params.delete('page')
-
-      if ( pricemin ) params.set('pricemin', ''+pricemin)
-      else params.delete('pricemin')
-
-      if ( pricemax ) params.set('pricemax', ''+pricemax)
-      else params.delete('pricemax')
-
-      if ( pricesort ) params.set('pricesort', pricesort)
-      else params.delete('pricesort')
-
-      if ( available ) params.set('available', available)
-      else params.delete('available')
-
-      const url = `${pathname}?${params.toString()}`
-      window.history.pushState({path:url}, '', url)
     }
   }, [debouncedSearchValue])
 

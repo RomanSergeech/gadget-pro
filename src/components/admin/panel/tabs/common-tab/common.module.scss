@@ -1,0 +1,21 @@
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  textarea {
+    min-height: 200px;
+  }
+
+  .address_field {
+    min-height: auto;
+  }
+}
+
+.hint {
+
+  span {
+    display: block;
+  }
+}

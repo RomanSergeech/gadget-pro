@@ -1,13 +1,22 @@
 import { create } from 'zustand'
 import { tryCatch } from '../utils'
 import ApiService from '../api/api.service'
+import { useMainStore } from './mian.store'
 
 import type { TQueryItemsListRequest } from '../types/api.types'
 import type { TItem } from '../types/item.type'
+import type { TCategory } from '../types/category.types'
+
+
+export type TDeepObj = {
+  [key: string]: TDeepObj
+}
 
 
 interface TState {
-  query: TQueryItemsListRequest
+  query: Omit<TQueryItemsListRequest, 'cat_keys'> & {
+    cat_keys: TDeepObj
+  }
   list: TItem[]
   total: number
   page: number
@@ -21,7 +30,7 @@ interface TStore extends TState {
 }
 
 const initialState: TState = {
-  query: {},
+  query: { cat_keys: {} },
   list: [],
   total: 0,
   page: 1,
@@ -44,7 +53,12 @@ export const useCategoriesStore = create<TStore>(
 
         const query = get().query
 
-        const { data } = await ApiService.queryItemsList(query)
+        const catsArr = getKeysToLeaves(query.cat_keys)
+
+        const { data } = await ApiService.queryItemsList({
+          ...query,
+          cat_keys: catsArr
+        })
 
         set({ ...data })
       },
@@ -55,3 +69,16 @@ export const useCategoriesStore = create<TStore>(
 
   })
 )
+
+function getKeysToLeaves( obj: Record<string, any>, currentKeys: string[] = [] ): string[][] {
+  const keysArray = []
+  for (const key in obj) {
+    const newKeys = [...currentKeys, key]
+    if (typeof obj[key] === 'object' && Object.keys(obj[key]).length > 0) {
+      keysArray.push(...getKeysToLeaves(obj[key], newKeys))
+    } else {
+      keysArray.push(newKeys)
+    }
+  }
+  return keysArray
+}

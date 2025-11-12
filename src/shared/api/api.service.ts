@@ -1,7 +1,7 @@
 import axios from "axios"
 
 import type { AxiosResponse } from "axios"
-import type { TAddCategoryResponse, TAddItemResponse, TCheckAuthResponse, TDeleteCategoryRequest, TDeleteCategoryResponse, TDeleteItemRequest, TDeleteItemResponse, TEditCategoryResponse, TEditItemResponse, TGetCategoriesListResponse, TGetMainDataResponse, TLoginRequest, TLoginResponse, TMakeOrderRequest, TMakeOrderResponse, TQueryItemDataRequest, TQueryItemDataResponse, TQueryItemsListRequest, TQueryItemsListResponse } from "../types/api.types"
+import type { TAddCategoryResponse, TAddItemResponse, TCheckAuthResponse, TDeleteCategoryRequest, TDeleteCategoryResponse, TDeleteItemRequest, TDeleteItemResponse, TEditCategoryResponse, TEditCommonDataRequest, TEditCommonDataResponse, TEditItemResponse, TGetCategoriesListResponse, TGetMainDataResponse, TLoginRequest, TLoginResponse, TMakeOrderRequest, TMakeOrderResponse, TQueryItemDataRequest, TQueryItemDataResponse, TQueryItemsListRequest, TQueryItemsListResponse } from "../types/api.types"
 
 
 const $api = axios.create({
@@ -85,6 +85,10 @@ class ApiService {
 
   async makeOrder( sendData: TMakeOrderRequest ) {
     return checkError(await $api.post<TMakeOrderResponse>('/api/order/add', sendData))
+  }
+
+  async editCommonData( sendData: TEditCommonDataRequest ) {
+    return checkError(await $api.post<TEditCommonDataResponse>('/api/main/edit', sendData))
   }
 
 }
