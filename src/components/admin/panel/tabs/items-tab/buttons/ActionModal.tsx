@@ -10,7 +10,6 @@ import type { TItem } from '@/shared/types/item.type'
 import type { TCategory } from '@/shared/types/category.types'
 
 import c from '../itemsTab.module.scss'
-import { arrayFromTo } from '@/shared/utils'
 
 
 const AVAILABULITY = Object.values(ItemAvailability)

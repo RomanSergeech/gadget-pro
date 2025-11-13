@@ -1,8 +1,8 @@
 'use client'
 
-import { Suspense, useEffect } from 'react'
+import { useEffect } from 'react'
 import Link from 'next/link'
-import { Button, Loader } from '@/shared/UI'
+import { Button } from '@/shared/UI'
 import { Gallery } from './components/Gallery'
 import { Items, OrderModal } from '@/widgets'
 import { useMainStore } from '@/shared/store/mian.store'
