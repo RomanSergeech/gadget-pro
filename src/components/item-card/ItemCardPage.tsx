@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 import Link from 'next/link'
-import { Button } from '@/shared/UI'
+import { Button, Loader } from '@/shared/UI'
 import { Gallery } from './components/Gallery'
 import { Items, OrderModal } from '@/widgets'
 import { useMainStore } from '@/shared/store/mian.store'
@@ -20,13 +20,18 @@ interface Props {
 }
 const ItemCardPage = ({ item_id }: Props) => {
 
-  const categories = useMainStore(state => state.categories)
   const item = useItemStore(state => state.item)
+  const loading = useItemStore(state => state.loading)
+  const categories = useMainStore(state => state.categories)
   const items = useMainStore(state => state.popular)
   const inCart = useCartStore(state => state.items_ids.includes(item?.id||''))
-
+  
   useEffect(() => {
     useItemStore.getState().queryItemData(item_id)
+
+    return () => {
+      useItemStore.setState({ item: null })
+    }
   }, [])
 
   const addToCart = () => {
@@ -38,6 +43,24 @@ const ItemCardPage = ({ item_id }: Props) => {
     if ( !item ) return
     useCartStore.getState().deleteFromCart(item.id)
   }
+  
+  if ( loading ) return <div className={c.page_body} >
+    <div className={c.top} >
+        <ul>
+          <li><Link href={Pages.catalog()} >Каталог</Link></li>
+          {item?.categories.map(cat_key => (
+            <li key={cat_key} >
+              <Link href={Pages.catalog(cat_key)} >
+                {categories.obj[cat_key]?.value}
+              </Link>
+            </li>
+          ))}
+          <li>
+            <b>{item?.name}</b>
+          </li>
+        </ul>
+      </div>
+  </div>
 
   return (
     <div className={c.page_body} >

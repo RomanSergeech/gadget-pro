@@ -32,8 +32,6 @@ const CommonTab = () => {
         <p>Общие</p>
       </div>
 
-      <p className={c.hint} >В текстовых полях можно использовать HTML теги</p>
-
       <form onSubmit={onSubmit} className={c.form} >
 
         <Textarea

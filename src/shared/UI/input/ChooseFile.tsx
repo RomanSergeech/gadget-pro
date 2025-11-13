@@ -33,6 +33,8 @@ const ChooseFile = ({ label, fileType, data }: ImageProps) => {
 		if ( !isFileSizeAllowed(file) ) return
 
     setLoadedImg({ loadedUrl: URL.createObjectURL(file), loadedFile: file })
+
+    inputRef.current!.value = ''
 	}
 
   const cancelUpload = () => {

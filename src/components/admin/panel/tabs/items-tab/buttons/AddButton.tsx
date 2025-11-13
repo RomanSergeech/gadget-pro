@@ -9,6 +9,7 @@ const AddButton = () => {
   const [active, setActive] = useState<boolean | null>(null)
 
   const [preview, setPreview] = useState<{loadedUrl:string,loadedFile:Blob}|null>(null)
+  const [gallery, setGallery] = useState<{loadedUrl:string,loadedFile:Blob}[]>([])
   const [specs, setSpecs] = useState<string[]>([])
 
   const onSubmit = async ( e: React.FormEvent<HTMLFormElement> ) => {
@@ -34,6 +35,18 @@ const AddButton = () => {
       })
   }
 
+  const galleryImageHandler = ( loadedImg: { loadedUrl: string, loadedFile: Blob } | null, url: string ) => {
+    setGallery(prev => {
+      if ( loadedImg && !gallery.find(img => img.loadedUrl === loadedImg.loadedUrl) ) {
+        prev.push(loadedImg)
+      }
+      if ( loadedImg === null ) {
+        prev = prev.filter(img => img.loadedUrl !== url)
+      }
+      return [...prev]
+    })
+  }
+
   return (<>
     <Button onClick={() => setActive(true)} >
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 4.16675V15.8334" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M4.16663 10H15.8333" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
@@ -49,6 +62,10 @@ const AddButton = () => {
         preview: {
           loadedUrl: preview?.loadedUrl || null,
           setLoadedImg: (loadedImg) => setPreview(loadedImg),
+        },
+        gallery: {
+          loadedImages: gallery,
+          setLoadedImg: (loadedImg, url) => galleryImageHandler(loadedImg, url),
         },
         specs: { value: specs, onChange: v => setSpecs(v) },
       }}

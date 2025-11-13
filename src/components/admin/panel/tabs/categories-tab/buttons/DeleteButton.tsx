@@ -34,7 +34,9 @@ const DeleteButton = ({ cat_key }: DeleteButtonProps) => {
       onClose={() => setActive(false)}
       className={c.delete_modal}
     >
-      <Button type="submit" onClick={deleteHandler} >Подтвердить</Button>
+      <form>
+        <Button type='button' onClick={deleteHandler} >Подтвердить</Button>
+      </form>
     </Modal>
   </>)
 }

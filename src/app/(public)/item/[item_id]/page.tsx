@@ -1,9 +1,12 @@
 import { ItemCardPage } from "@/components"
-import { use } from "react"
+import { Loader } from "@/shared/UI"
+import { Suspense, use } from "react"
 
 const Page = ({ params }: { params: Promise<{ item_id: string }> }) => {
   const { item_id } = use(params)
-  return <ItemCardPage item_id={item_id} />
+  return <Suspense fallback={<Loader fullScreen />} >
+    <ItemCardPage item_id={item_id} />
+  </Suspense>
 }
 
 export default Page

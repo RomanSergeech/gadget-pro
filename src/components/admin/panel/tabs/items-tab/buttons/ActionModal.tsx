@@ -10,6 +10,7 @@ import type { TItem } from '@/shared/types/item.type'
 import type { TCategory } from '@/shared/types/category.types'
 
 import c from '../itemsTab.module.scss'
+import { arrayFromTo } from '@/shared/utils'
 
 
 const AVAILABULITY = Object.values(ItemAvailability)
@@ -34,12 +35,16 @@ type TDataObj<T, K extends keyof T> = {
   [key in K]: { value: T[key], onChange: ( v: T[key] ) => void }
 }
 
-type Item = Omit<TItem, 'id'|'item_id'|'preview'>
+type Item = Omit<TItem, 'id'|'item_id'|'preview'|'gallery'>
 
 type TData = Partial<TDataObj<Item, keyof Item>> & {
   preview: {
     loadedUrl: string | null
     setLoadedImg: (img: { loadedUrl: string, loadedFile: Blob } | null) => void
+  },
+  gallery: {
+    loadedImages: { loadedUrl: string, loadedFile: Blob|null }[]
+    setLoadedImg: (img: { loadedUrl: string, loadedFile: Blob } | null, url: string) => void
   },
 }
 
@@ -82,6 +87,8 @@ const ActionModal = ({ title, data, active, setActive, onSubmit }: ModalProps) =
           fileType='image'
           data={data.preview}
         />
+
+        <Gallery gallery={data.gallery} />
 
         <Select
           data={categoriesList}
@@ -213,6 +220,44 @@ const Repeater = ({ name, label, value, setData }: RepeaterProps) => {
       ))}
 
       <Button type='button' onClick={addValue} >Add</Button>
+
+    </div>
+  )
+}
+
+
+interface GalleryProps {
+  gallery: {
+    loadedImages: { loadedUrl: string, loadedFile: Blob|null }[]
+    setLoadedImg: (img: { loadedUrl: string, loadedFile: Blob } | null, url: string) => void
+  }
+}
+const Gallery = ({ gallery }: GalleryProps) => {
+
+  // const [imagesCount, setImagesCount] = useState(gallery.loadedUrls.length)
+
+  return (
+    <div className={c.gallery} >
+
+      <label>Галерея</label>
+
+      <div>
+        <ChooseFile
+          fileType='image'
+          data={{ loadedUrl: null, setLoadedImg: img => gallery.setLoadedImg(img, img?.loadedUrl||'') }}
+        />
+
+        {gallery.loadedImages?.map((image) => (
+          <ChooseFile
+            key={image.loadedUrl}
+            fileType='image'
+            data={{
+              loadedUrl: image.loadedUrl,
+              setLoadedImg: img => gallery.setLoadedImg(img, image?.loadedUrl||'')
+            }}
+          />
+        ))}
+      </div>
 
     </div>
   )

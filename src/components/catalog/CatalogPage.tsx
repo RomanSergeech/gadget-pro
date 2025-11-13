@@ -1,3 +1,5 @@
+import { Suspense } from 'react'
+import { Loader } from '@/shared/UI'
 import { Categories } from './categories/Categories'
 import { List } from './list/List'
 
@@ -10,7 +12,9 @@ const CatalogPage = () => {
       
       <Categories />
 
-      <List />
+      <Suspense fallback={<Loader />} >
+        <List />
+      </Suspense>
 
     </div>
   )

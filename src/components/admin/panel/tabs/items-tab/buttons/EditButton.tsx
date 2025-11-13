@@ -15,6 +15,7 @@ const EditButton = ({ data }: Props) => {
 
   const [active, setActive] = useState<boolean | null>(null)
   const [preview, setPreview] = useState<{loadedUrl:string,loadedFile:Blob|null}|null>(null)
+  const [gallery, setGallery] = useState<{loadedUrl:string,loadedFile:Blob|null}[]>([])
   const [item, setItem] = useState(data)
 
   useEffect(() => {
@@ -23,6 +24,7 @@ const EditButton = ({ data }: Props) => {
       loadedUrl: data.preview,
       loadedFile: null
     })
+    setGallery(data.gallery.map(el => ({ loadedUrl: el, loadedFile: null })))
   }, [data])
 
   const onSubmit = async ( e: React.FormEvent<HTMLFormElement> ) => {
@@ -37,6 +39,13 @@ const EditButton = ({ data }: Props) => {
 
     if ( preview?.loadedFile ) {
       formData.append('preview', preview.loadedFile, 'preview')
+    }
+
+    if ( gallery.length > 0 ) {
+      const g = gallery.filter(el => el.loadedFile !== null)
+      g.forEach(el => {
+        formData.append('gallery', el.loadedFile!)
+      })
     }
 
     formData.set('specs', JSON.stringify(item.specs))
@@ -56,6 +65,18 @@ const EditButton = ({ data }: Props) => {
     })
   }
 
+  const galleryImageHandler = ( loadedImg: { loadedUrl: string, loadedFile: Blob } | null, url: string ) => {
+    setGallery(prev => {
+      if ( loadedImg && !gallery.find(img => img.loadedUrl === loadedImg.loadedUrl) ) {
+        prev.push(loadedImg)
+      }
+      if ( loadedImg === null ) {
+        prev = prev.filter(img => img.loadedUrl !== url)
+      }
+      return [...prev]
+    })
+  }
+
   return (<>
     <Button onClick={() => setActive(true)} className={c.edit_button} >
       Редактировать
@@ -70,6 +91,10 @@ const EditButton = ({ data }: Props) => {
         preview: {
           loadedUrl: preview?.loadedUrl || null,
           setLoadedImg: (loadedImg) => setPreview(loadedImg),
+        },
+        gallery: {
+          loadedImages: gallery,
+          setLoadedImg: (loadedImg, url) => galleryImageHandler(loadedImg, url),
         },
         name: { value: item.name, onChange: v => changeHandler(v, 'name') },
         price: { value: item.price, onChange: v => changeHandler(v, 'price') },
