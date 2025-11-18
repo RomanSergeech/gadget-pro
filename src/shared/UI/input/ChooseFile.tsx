@@ -17,8 +17,9 @@ interface ImageProps {
     loadedUrl: string | null
     setLoadedImg: (img: { loadedUrl: string, loadedFile: Blob } | null) => void
   }
+  className?: string
 }
-const ChooseFile = ({ label, fileType, data }: ImageProps) => {
+const ChooseFile = ({ label, fileType, data, className }: ImageProps) => {
 
   const { loadedUrl, setLoadedImg } = data
 
@@ -44,7 +45,7 @@ const ChooseFile = ({ label, fileType, data }: ImageProps) => {
 
   return (
     <div
-      className={cn(c.choose_image, loadedUrl ? c._loaded : '')}
+      className={cn(c.choose_image, loadedUrl ? c._loaded : '', className)}
       onClick={loadedUrl ? ()=>{} : () => inputRef.current?.click()}
     >
       <input

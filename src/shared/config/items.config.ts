@@ -1,5 +1,11 @@
 
 export const ItemLabels = {
+  recent: {
+    key: 'recent',
+    value: 'Вы смотрели',
+    bgColor: '#FF7174',
+    textColor: '#FFFFFF'
+  },
   new: {
     key: 'new',
     value: 'Новинка',

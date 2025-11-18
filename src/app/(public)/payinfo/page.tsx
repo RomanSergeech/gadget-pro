@@ -1,4 +1,5 @@
-import { PaymentInfoPage } from "@/components"
+import { PaymentInfoPage } from "@/components/payment-info/PaymentInfoPage"
+
 
 const Page = () => {
   return <PaymentInfoPage />

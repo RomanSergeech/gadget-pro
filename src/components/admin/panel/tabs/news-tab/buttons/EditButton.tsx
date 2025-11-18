@@ -3,26 +3,28 @@ import { useEffect, useState } from "react"
 import { ActionModal } from "./ActionModal"
 import { useAdminStore } from "@/shared/store/admin.store"
 
-import type { TCategory } from "@/shared/types/category.types"
+import type { TNewsItem } from "@/shared/types/news.types"
 
-import c from '../categoriesTab.module.scss'
+import c from '../newsTab.module.scss'
 
 
 interface Props {
-  data: TCategory
+  data: TNewsItem<'admin'>
 }
 const EditButton = ({ data }: Props) => {
 
   const [active, setActive] = useState<boolean | null>(null)
-  const [category, setCategory] = useState(data)
-  const [preview, setPreview] = useState<{loadedUrl:string|null,loadedFile:Blob|null}|null>(null)
+  const [preview, setPreview] = useState<{loadedUrl:string,loadedFile:Blob|null}|null>(null)
+  const [item, setItem] = useState(data)
 
   useEffect(() => {
-    setCategory(data)
-    setPreview({
-      loadedUrl: data.preview,
-      loadedFile: null
-    })
+    setItem(structuredClone(data))
+    if ( data.preview ) {
+      setPreview({
+        loadedUrl: data.preview,
+        loadedFile: null
+      })
+    }
   }, [data])
 
   const onSubmit = async ( e: React.FormEvent<HTMLFormElement> ) => {
@@ -49,20 +51,16 @@ const EditButton = ({ data }: Props) => {
       formData.set('preview_name', 'null')
     }
 
-    const categoies = useAdminStore.getState().categories.obj
+    formData.append('id', data.id)
 
-    formData.set('cat_order', '' + (Object.keys(categoies).length + 1))
-
-    formData.set('id', data.id)
-
-    useAdminStore.getState().editCategory(formData)
-      .then(() => {
+    useAdminStore.getState().editNewsItem(formData)
+      .finally(() => {
         setActive(false)
       })
   }
 
-  const changeHandler = <K extends keyof TCategory>( value: TCategory[K], key: K ) => {
-    setCategory(obj => {
+  const changeHandler = <K extends keyof TNewsItem<'admin'>>( value: TNewsItem<'admin'>[K], key: K ) => {
+    setItem(obj => {
       obj[key] = value
       return structuredClone(obj)
     })
@@ -70,11 +68,11 @@ const EditButton = ({ data }: Props) => {
 
   return (<>
     <Button onClick={() => setActive(true)} className={c.edit_button} >
-      Изменить
+      Редактировать
     </Button>
 
     <ActionModal
-      title='Изменить категорию'
+      title='Редактировать новость'
       active={active}
       setActive={setActive}
       onSubmit={onSubmit}
@@ -83,11 +81,9 @@ const EditButton = ({ data }: Props) => {
           loadedUrl: preview?.loadedUrl || null,
           setLoadedImg: (loadedImg) => setPreview(loadedImg),
         },
-        key: { value: category.key, onChange: v => changeHandler(v, 'key') },
-        value: { value: category.value, onChange: v => changeHandler(v, 'value') },
-        children_keys: { value: category.children_keys, onChange: v => changeHandler(v, 'children_keys') },
-        show_on_main: { value: category.show_on_main, onChange: v => changeHandler(v, 'show_on_main') },
-        exclude_cat_keys: [...category.all_parents, category.key],
+        title: { value: item.title, onChange: v => changeHandler(v, 'title') },
+        show_on_main: { value: item.show_on_main, onChange: v => changeHandler(v, 'show_on_main') },
+        html: { value: item.html, onChange: v => changeHandler(v, 'html') },
       }}
     />
   </>)

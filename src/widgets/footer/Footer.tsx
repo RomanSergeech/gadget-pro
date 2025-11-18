@@ -10,7 +10,7 @@ import { useEffect, useRef } from "react"
 
 export const MENU = [
   { key: 'catalog', value: 'Каталог', link: Pages.catalog() },
-  { key: 'news', value: 'Новости', link: Pages.news },
+  { key: 'news', value: 'Новости', link: Pages.news() },
   { key: 'catpayinfoalog', value: 'Доставка и оплата', link: Pages.payinfo },
   { key: 'about', value: 'О компании', link: Pages.about },
   // { key: 'contact', value: 'Контакты', link: Pages.contact },

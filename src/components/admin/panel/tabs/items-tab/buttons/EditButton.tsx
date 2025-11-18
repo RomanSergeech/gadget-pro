@@ -37,8 +37,18 @@ const EditButton = ({ data }: Props) => {
       return 
     }
 
+    const preview_name = data.preview?.split('/').pop() || ''
+
+    formData.set('preview_name', preview_name)
+
     if ( preview?.loadedFile ) {
       formData.append('preview', preview.loadedFile, 'preview')
+    }
+    if ( data.preview && preview?.loadedUrl === undefined ) {
+      formData.set('preview_name', 'null')
+    }
+    if ( data.preview && preview?.loadedFile ) {
+      formData.set('preview_name', 'null')
     }
 
     if ( gallery.length > 0 ) {
@@ -48,9 +58,16 @@ const EditButton = ({ data }: Props) => {
       })
     }
 
+    const gallery_names = gallery
+      .map(el => el.loadedUrl?.split('/').pop()?.endsWith('.png') ? el.loadedUrl?.split('/').pop() : null)
+      .filter(el => el !== null)
+
+    formData.set('gallery_names', JSON.stringify(gallery_names))
+
     formData.set('specs', JSON.stringify(item.specs))
 
-    formData.append('id', data.id)
+    formData.set('id', data.id)
+    formData.set('item_id', data.item_id)
 
     useAdminStore.getState().editItem(formData)
       .finally(() => {
@@ -83,7 +100,7 @@ const EditButton = ({ data }: Props) => {
     </Button>
 
     <ActionModal
-      title='Edit card'
+      title='Редактировать товар'
       active={active}
       setActive={setActive}
       onSubmit={onSubmit}

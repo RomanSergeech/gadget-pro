@@ -1,9 +1,9 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
 import { useMainStore } from '@/shared/store/mian.store'
 
 import c from './paymentInfoPage.module.scss'
-import { useEffect, useRef } from 'react'
 
 
 const PaymentInfoPage = () => {

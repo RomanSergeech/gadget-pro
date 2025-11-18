@@ -1,4 +1,6 @@
 
+export { useOutsideClick } from "./useOutsideClick"
+
 export { useDebounce } from "./useDebounce"
 
 export { useSearchHandler } from "./useSearchHandler"

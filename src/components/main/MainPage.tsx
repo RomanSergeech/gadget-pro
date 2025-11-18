@@ -16,6 +16,7 @@ const MainPage = () => {
   const loading = useMainStore(state => state.loading)
   const newItems = useMainStore(state => state.new)
   const popularItems = useMainStore(state => state.popular)
+  const recentItems = useMainStore(state => state.recent)
 
   return (
     <main className={cn(c.page_body, 'full-width')} >
@@ -27,6 +28,10 @@ const MainPage = () => {
       <Items items={newItems} />
 
       <Items items={popularItems} />
+
+      {recentItems.length >= 5 &&
+        <Items items={recentItems} />
+      }
 
       <Categories />
 

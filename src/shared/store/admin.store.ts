@@ -1,9 +1,8 @@
 import { create } from 'zustand'
-import { devtools } from 'zustand/middleware'
 import ApiService from '../api/api.service'
 import { tryCatch } from '../utils'
 
-import type { TDeleteCategoryRequest, TDeleteItemRequest, TEditCommonDataRequest, TEditCommonDataResponse, TLoginRequest } from '../types/api.types'
+import type { TDeleteCategoryRequest, TDeleteItemRequest, TDeleteNewsItemRequest, TEditCommonDataRequest, TEditCommonDataResponse, TLoginRequest } from '../types/api.types'
 import type { TNewsItem } from '../types/news.types'
 import type { TCategoriesList } from '../types/category.types'
 import type { TItem } from '../types/item.type'
@@ -16,7 +15,7 @@ interface TState {
   items: TItem[],
   slides: TSlide[]
   categories: TCategoriesList
-  news: TNewsItem[]
+  news: TNewsItem<'admin'>[]
   common: TEditCommonDataResponse
 }
 
@@ -24,6 +23,7 @@ interface TStore extends TState {
   checkAuth: () => void
   login: ( reqData: TLoginRequest ) => Promise<void>
   logout: () => void
+  editCommonData: ( sendData: TEditCommonDataRequest ) => Promise<void>
   queryAdminData: () => Promise<void>
   addItem: ( formData: FormData ) => Promise<void>
   editItem: ( formData: FormData ) => Promise<void>
@@ -31,7 +31,9 @@ interface TStore extends TState {
   addCategory: ( formData: FormData ) => Promise<void>
   editCategory: ( formData: FormData ) => Promise<void>
   deleteCategory: ( sendData: TDeleteCategoryRequest ) => Promise<void>
-  editCommonData: ( sendData: TEditCommonDataRequest ) => Promise<void>
+  addNewsItem: ( formData: FormData ) => Promise<void>
+  editNewsItem: ( formData: FormData ) => Promise<void>
+  deleteNewsItem: ( sendData: TDeleteNewsItemRequest ) => Promise<void>
 }
 
 const initialState: TState = {
@@ -49,8 +51,8 @@ const initialState: TState = {
   }
 }
 
-export const useAdminStore = create(
-  devtools<TStore>((set) => ({
+export const useAdminStore = create<TStore>(
+  (set) => ({
     ...initialState,
 
     checkAuth: () => tryCatch({
@@ -64,7 +66,7 @@ export const useAdminStore = create(
         })
       },
       onError: () => {
-        // localStorage.removeItem('token')
+        localStorage.removeItem('token')
       },
       onFinally: () => {
         set({ loading: false })
@@ -91,18 +93,29 @@ export const useAdminStore = create(
         set({ ...initialState })
       }
     }),
+    
+    editCommonData: ( sendData ) => tryCatch({
+      callback: async () => {
+
+        await ApiService.editCommonData(sendData)
+
+      }
+    }),
 
     queryAdminData: () => tryCatch({
       callback: async () => {
 
         const items = await ApiService.queryItemsList({})
 
+        const news = await ApiService.queryNewsList<'admin'>({ admin: true })
+
         const data = await ApiService.queryMainData()
 
         set({
           items: items.data.list,
           categories: data.data.categories.list,
-          common: data.data.common
+          common: data.data.common,
+          news: news.data.list
         })
       }
     }),
@@ -172,14 +185,39 @@ export const useAdminStore = create(
         })
       }
     }),
-
-    editCommonData: ( sendData ) => tryCatch({
+    
+    addNewsItem: ( formData ) => tryCatch({
       callback: async () => {
 
-        await ApiService.editCommonData(sendData)
+        const { data } = await ApiService.addNewsItem(formData)
 
+        set({
+          news: data.list
+        })
       }
     }),
 
-  }))
+    editNewsItem: ( formData ) => tryCatch({
+      callback: async () => {
+
+        const { data } = await ApiService.editNewsItem(formData)
+
+        set({
+          news: data.list
+        })
+      }
+    }),
+
+    deleteNewsItem: ( sendData ) => tryCatch({
+      callback: async () => {
+
+        const { data } = await ApiService.deleteNewsItem(sendData)
+
+        set({
+          news: data.list
+        })
+      }
+    }),
+
+  })
 )

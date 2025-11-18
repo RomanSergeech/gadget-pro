@@ -1,9 +1,11 @@
-import { AdminPage } from "@/components"
+import dynamic from 'next/dynamic'
 import { Alert } from "@/shared/UI/alert/Alert"
+
+const AdminPageLazy = dynamic(() => import('@/components/admin/AdminPage'))
 
 const Page = () => {
   return [
-    <AdminPage key={1} />,
+    <AdminPageLazy key={1} />,
     <Alert key={2} />
   ]
 }

@@ -2,18 +2,17 @@ import { useState } from "react"
 import { Button, Modal } from "@/shared/UI"
 import { useAdminStore } from "@/shared/store/admin.store"
 
-import c from '../itemsTab.module.scss'
+import c from '../newsTab.module.scss'
 
 interface DeleteButtonProps {
   id: string
-  item_id: string
 }
-const DeleteButton = ({ id, item_id }: DeleteButtonProps) => {
+const DeleteButton = ({ id }: DeleteButtonProps) => {
 
   const [active, setActive] = useState<boolean | null>(null)
 
   const deleteHandler = () => {
-    useAdminStore.getState().deleteItem({ id, item_id })
+    useAdminStore.getState().deleteNewsItem({ id })
       .then(() => {
         setActive(false)
       })
@@ -30,7 +29,7 @@ const DeleteButton = ({ id, item_id }: DeleteButtonProps) => {
     </Button>
 
     <Modal
-      title="Удалить товар?"
+      title="Удалить новость?"
       isOpened={active}
       onClose={() => setActive(false)}
       className={c.delete_modal}

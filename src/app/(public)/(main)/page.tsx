@@ -1,4 +1,4 @@
-import { MainPage } from '@/components'
+import { MainPage } from '@/components/main/MainPage'
 
 const Page = () => {
   return <MainPage />

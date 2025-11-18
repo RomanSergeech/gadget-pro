@@ -4,19 +4,18 @@ import { AddButton } from './buttons/AddButton'
 import { useAdminStore } from '@/shared/store/admin.store'
 import { EditButton } from './buttons/EditButton'
 import { DeleteButton } from './buttons/DeleteButton'
-import { getPrice } from '@/shared/utils'
-import { ItemAvailability } from '@/shared/config/items.config'
 
-import c from './itemsTab.module.scss'
+import c from './newsTab.module.scss'
 import cl from '../../../adminPage.module.scss'
+import { Pages } from '@/shared/config/pages.config'
 
 
 interface Props {
   
 }
-const ItemsTab = ({  }: Props) => {
+const NewsTab = ({  }: Props) => {
 
-  const list = useAdminStore(state => state.items)
+  const list = useAdminStore(state => state.news)
 
   return (
     <div className={cl.list} >
@@ -29,9 +28,8 @@ const ItemsTab = ({  }: Props) => {
         titles={{
           titles: [
             { value: 'Превью' },
-            { value: 'Название' },
-            { value: 'Цена' },
-            { value: 'Остаток' },
+            { value: 'Заголовок' },
+            // { value: 'Описание' },
             { value: 'Действия' },
           ]
         }}
@@ -42,14 +40,11 @@ const ItemsTab = ({  }: Props) => {
                 <img src={item.preview} />
               }
             </li>
-            <li><Link href={item.preview} >{item.name}</Link></li>
-            <li>{getPrice(item.price)}</li>
-            <li data-available={item.available} >
-              {ItemAvailability[item.available as keyof typeof ItemAvailability]?.value}
-            </li>
+            <li className={c.link} ><Link href={Pages.news(item.id)} >{item.title}</Link></li>
+            {/* <li>{item.description}</li> */}
             <li className={c.btns} >
               <EditButton data={item} />
-              <DeleteButton id={item.id} item_id={item.item_id} />
+              <DeleteButton id={item.id} />
             </li>
           </ul>
         ))}
@@ -61,4 +56,4 @@ const ItemsTab = ({  }: Props) => {
   )
 }
 
-export { ItemsTab }
+export { NewsTab }

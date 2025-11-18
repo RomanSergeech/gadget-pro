@@ -2,38 +2,35 @@ import { create } from 'zustand'
 import { tryCatch } from '../utils'
 import ApiService from '../api/api.service'
 
-import type { TItem } from '../types/item.type'
-import { useMainStore } from './mian.store'
+import type { TNewsItem } from '../types/news.types'
 
 
 interface TState {
-  item: TItem | null
+  news_item: TNewsItem | null
   loading: boolean
 }
 
 interface TStore extends TState {
-  queryItemData: ( item_id: string ) => void
+  queryNewsItemData: ( id: string ) => void
 }
 
 const initialState: TState = {
-  item: null,
+  news_item: null,
   loading: false
 }
 
-export const useItemStore = create<TStore>(
+export const useNewsItemStore = create<TStore>(
   (set) => ({
     ...initialState,
 
-    queryItemData: ( item_id ) => tryCatch({
+    queryNewsItemData: ( id ) => tryCatch({
       callback: async () => {
         set({ loading: true })
 
-        const { data } = await ApiService.queryItemData({ item_id })
-
-        useMainStore.getState().queryRecentItems()
+        const { data } = await ApiService.getNewsItem({ id })
 
         set({
-          item: data.item
+          news_item: data.news_item
         })
       },
       onFinally: () => {

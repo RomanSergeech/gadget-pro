@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { CategoriesTab, CommonTab, ItemsTab } from './tabs'
+import { CategoriesTab, CommonTab, ItemsTab, NewsTab } from './tabs'
 import { useAdminStore } from '@/shared/store/admin.store'
 
 import c from '../adminPage.module.scss'
@@ -25,7 +25,7 @@ const TABS_COMPONENTS: Record<`${ETabs}`, React.ReactElement> = {
   [ETabs.common]: <CommonTab />,
   [ETabs.items]: <ItemsTab />,
   [ETabs.categories]: <CategoriesTab />,
-  [ETabs.news]: <ItemsTab />,
+  [ETabs.news]: <NewsTab />,
 }
 
 

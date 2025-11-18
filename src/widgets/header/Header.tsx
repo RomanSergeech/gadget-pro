@@ -1,23 +1,23 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-import { match } from 'path-to-regexp'
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
+import { match } from 'path-to-regexp'
 import { cn } from '@/shared/utils'
 import { Logo } from '@/shared/UI'
 import { Search } from './search/Search'
 import { Menu } from './menu/Menu'
 import { Pages } from '@/shared/config/pages.config'
+import { useMainStore } from '@/shared/store/mian.store'
 
 import c from './header.module.scss'
-import { useMainStore } from '@/shared/store/mian.store'
 
 
 export const MENU = [
   { key: 'main', value: 'Главная', link: Pages.main },
   { key: 'catalog', value: 'Каталог', link: Pages.catalog() },
-  { key: 'news', value: 'Новости', link: Pages.news },
+  { key: 'news', value: 'Новости', link: Pages.news() },
   { key: 'catpayinfoalog', value: 'Доставка и оплата', link: Pages.payinfo },
   { key: 'about', value: 'О компании', link: Pages.about },
   // { key: 'contact', value: 'Контакты', link: Pages.contact },

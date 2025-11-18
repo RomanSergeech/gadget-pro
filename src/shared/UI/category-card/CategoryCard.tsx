@@ -15,7 +15,7 @@ const CategoryCard = ({ category }: Props) => {
       className={c.category}
     >
       <div className={c.image_wrapper} >
-        <img src={category.preview || ''} />
+        <img src={category.preview || undefined} />
       </div>
 
       <p>{category.value}</p>

@@ -19,7 +19,8 @@ const List = () => {
 
   return (<>
     <div className={c.top} >
-      <b>Найдено товаров {list.length}</b>
+      {!loading && <b>Найдено товаров {list.length}</b>}
+      {loading && <Loader fontSize={10} />}
     </div>
 
     <div className={c.list} >
@@ -28,11 +29,11 @@ const List = () => {
         <ItemCard key={item.id} item={item} />
       ))}
 
-      {loading && (
+      {/* {loading && (
         <div className={c.loader_wrapper} >
           <Loader fontSize={12} />
         </div>
-      )}
+      )} */}
 
     </div>
 

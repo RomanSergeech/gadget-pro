@@ -19,3 +19,47 @@
     display: block;
   }
 }
+
+.gallery {
+  display: grid;
+  gap: 8px;
+
+  ::-webkit-scrollbar {
+    height: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: var(--color-light-grey);
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--color-grey);
+    border-radius: 4px;
+  }
+
+  label {
+    color: var(--color-grey);
+    margin-left: 8px;
+    font-size: 12px;
+  }
+
+  & > div {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    
+    & > div {
+      min-width: 150px;
+      max-width: 300px;
+      display: grid;
+      gap: 4px;
+    }
+  }
+}
+
+.choose_image {
+  padding: 10px 0;
+
+  img {
+    width: 100%;
+  }
+}

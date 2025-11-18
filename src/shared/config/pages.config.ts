@@ -10,7 +10,7 @@ export const Pages = {
   },
   item: ( item_id: string|number ) => `/item/${item_id}`,
   cart: '/cart',
-  news: '/news',
+  news: ( id?: string|number ) => id ? `/news/${id}` : '/news',
   payinfo: '/payinfo',
   about: '/about',
   contact: '/contact',

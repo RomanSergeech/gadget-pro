@@ -28,3 +28,5 @@ const AdminPage = () => {
 }
 
 export { AdminPage }
+
+export default AdminPage

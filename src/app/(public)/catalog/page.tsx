@@ -1,6 +1,6 @@
 import { Suspense } from "react"
-import { CatalogPage } from "@/components"
 import { Loader } from "@/shared/UI"
+import { CatalogPage } from "@/components/catalog/CatalogPage"
 
 const Page = () => {
   return (

@@ -1,7 +1,7 @@
 import axios from "axios"
 
 import type { AxiosResponse } from "axios"
-import type { TAddCategoryResponse, TAddItemResponse, TCheckAuthResponse, TDeleteCategoryRequest, TDeleteCategoryResponse, TDeleteItemRequest, TDeleteItemResponse, TEditCategoryResponse, TEditCommonDataRequest, TEditCommonDataResponse, TEditItemResponse, TGetCategoriesListResponse, TGetMainDataResponse, TLoginRequest, TLoginResponse, TMakeOrderRequest, TMakeOrderResponse, TQueryItemDataRequest, TQueryItemDataResponse, TQueryItemsListRequest, TQueryItemsListResponse } from "../types/api.types"
+import type { TAddCategoryResponse, TAddItemResponse, TAddNewsItemResponse, TCheckAuthResponse, TDeleteCategoryRequest, TDeleteCategoryResponse, TDeleteItemRequest, TDeleteItemResponse, TDeleteNewsItemRequest, TDeleteNewsItemResponse, TEditCategoryResponse, TEditCommonDataRequest, TEditCommonDataResponse, TEditItemResponse, TEditNewsItemResponse, TGetCategoriesListResponse, TGetMainDataResponse, TGetNewsItemRequest, TGetNewsItemResponse, TGetNewsListRequest, TGetNewsListResponse, TLoginRequest, TLoginResponse, TMakeOrderRequest, TMakeOrderResponse, TQueryItemDataRequest, TQueryItemDataResponse, TQueryItemsListRequest, TQueryItemsListResponse, TQueryRecentItemsRequest, TQueryRecentItemsResponse, TSearchItemsRequest, TSearchItemsResponse } from "../types/api.types"
 
 
 const $api = axios.create({
@@ -79,6 +79,10 @@ class ApiService {
     return checkError(await $api.post<TGetMainDataResponse>('/api/main'))
   }
 
+  async queryRecentItems( sendData: TQueryRecentItemsRequest ) {
+    return checkError(await $api.post<TQueryRecentItemsResponse>('/api/item/recent', sendData))
+  }
+
   async queryItemData( sendData: TQueryItemDataRequest ) {
     return checkError(await $api.post<TQueryItemDataResponse>('/api/item/get', sendData))
   }
@@ -89,6 +93,30 @@ class ApiService {
 
   async editCommonData( sendData: TEditCommonDataRequest ) {
     return checkError(await $api.post<TEditCommonDataResponse>('/api/main/edit', sendData))
+  }
+
+  async searchItems( sendData: TSearchItemsRequest ) {
+    return checkError(await $api.post<TSearchItemsResponse>('/api/search', sendData))
+  }
+
+  async queryNewsList<T extends 'admin'|'cutted' = 'cutted'>( sendData: TGetNewsListRequest ) {
+    return checkError(await $api.post<TGetNewsListResponse<T>>('/api/news/list', sendData))
+  }
+
+  async getNewsItem( sendData: TGetNewsItemRequest ) {
+    return checkError(await $api.post<TGetNewsItemResponse>('/api/news/get', sendData))
+  }
+
+  async addNewsItem( formData: FormData ) {
+    return checkError(await $api.post<TAddNewsItemResponse>('/api/news/add', formData))
+  }
+
+  async editNewsItem( formData: FormData ) {
+    return checkError(await $api.post<TEditNewsItemResponse>('/api/news/edit', formData))
+  }
+
+  async deleteNewsItem( sendData: TDeleteNewsItemRequest ) {
+    return checkError(await $api.post<TDeleteNewsItemResponse>('/api/news/delete', sendData))
   }
 
 }

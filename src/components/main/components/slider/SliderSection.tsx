@@ -51,29 +51,22 @@ const SliderSection = () => {
           <div
             key={i}
             className={cn(c.slide, 'full-width')}
-            style={{ backgroundColor: el.bgColor }}
             data-active={slide === i+1}
           >
             <div>
               <div className={c.text} >
-                <p style={{ color: el.text.color }} >
-                  {el.text.value.split('\n').map((line, index) => (
+                <p>
+                  {el.text.split('\n').map((line, index) => (
                     <span key={index}>{line}<br /></span>
                   ))}
                 </p>
-                <Link
-                  href={el.link}
-                  style={{
-                    color: el.btn.textColor,
-                    backgroundColor: el.btn.color
-                  }}
-                >
-                  {el.btn.value}
+                <Link href={el.url} >
+                  {el.btn_text}
                 </Link>
               </div>
 
               <div className={c.image_wrapper} >
-                <img src={el.img} />
+                <img src={el.image} />
               </div>
             </div>
           </div>

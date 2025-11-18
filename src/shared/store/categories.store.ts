@@ -47,7 +47,7 @@ export const useCategoriesStore = create<TStore>(
 
     queryItemsList: () => tryCatch({
       callback: async () => {
-        set({ loading: true, list: [] })
+        set({ loading: true })
 
         const query = get().query
 

@@ -1,4 +1,5 @@
-import { NewsPage } from "@/components"
+import { NewsPage } from "@/components/news/NewsPage"
+
 
 const Page = () => {
   return <NewsPage />

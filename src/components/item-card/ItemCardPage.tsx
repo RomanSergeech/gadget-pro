@@ -25,9 +25,11 @@ const ItemCardPage = ({ item_id }: Props) => {
   const categories = useMainStore(state => state.categories)
   const items = useMainStore(state => state.popular)
   const inCart = useCartStore(state => state.items_ids.includes(item?.id||''))
-  
+
   useEffect(() => {
     useItemStore.getState().queryItemData(item_id)
+
+    addToRecent(item_id)
 
     return () => {
       useItemStore.setState({ item: null })
@@ -44,8 +46,9 @@ const ItemCardPage = ({ item_id }: Props) => {
     useCartStore.getState().deleteFromCart(item.id)
   }
   
-  if ( loading ) return <div className={c.page_body} >
-    <div className={c.top} >
+  if ( loading ) return (
+    <div className={c.page_body} >
+      <div className={c.top} >
         <ul>
           <li><Link href={Pages.catalog()} >Каталог</Link></li>
           {item?.categories.map(cat_key => (
@@ -60,7 +63,8 @@ const ItemCardPage = ({ item_id }: Props) => {
           </li>
         </ul>
       </div>
-  </div>
+    </div>
+  )
 
   return (
     <div className={c.page_body} >
@@ -80,7 +84,7 @@ const ItemCardPage = ({ item_id }: Props) => {
           </li>
         </ul>
       </div>
-      
+
       <Gallery />
 
       <div className={c.description_wrapper} >
@@ -130,6 +134,20 @@ const ItemCardPage = ({ item_id }: Props) => {
 
     </div>
   )
+}
+
+const addToRecent = ( item_id: string ) => {
+
+  let recent: string[] = JSON.parse(localStorage.getItem('recent') || '[]')
+
+  if ( !recent.find(id => id === item_id)) {
+    if ( recent.length === 10 ) {
+      recent.pop()
+    }
+    recent.unshift(item_id)
+    localStorage.setItem('recent', JSON.stringify(recent))
+  }
+
 }
 
 export { ItemCardPage }

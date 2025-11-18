@@ -1,22 +1,72 @@
+'use client'
+
+import Link from "next/link"
+import { useEffect, useRef, useState } from "react"
+import { useDebounce, useOutsideClick } from "@/shared/hooks"
+import { useMainStore } from "@/shared/store/mian.store"
+import { Pages } from "@/shared/config/pages.config"
 import { Input } from "@/shared/UI"
 
 import c from './search.module.scss'
+
 
 interface Props {
   active: boolean
   setActive: () => void
 }
 const Search = ({ active=false, setActive }: Props) => {
+
+  const searched = useMainStore(state => state.searched)
+
+  const [value, setValue] = useState('')
+
+  const searchRef = useRef<HTMLDivElement>(null)
+  const debouncedValue = useDebounce(value, 400)
+
+  useEffect(() => {
+    if ( debouncedValue ) {
+      useMainStore.getState().searchItems({ search: value })
+    } else {
+      useMainStore.setState({ searched: [] })
+    }
+  }, [debouncedValue])
+
+  const onClose = () => {
+    useMainStore.setState({ searched: [] })
+    setValue('')
+    setActive()
+  }
+
+  useOutsideClick({
+		elementRef: searchRef,
+		enabled: searched.length > 0,
+		onOutsideClick: onClose
+	})
+
   return (
     <div
       className={c.search}
       data-active={active}
+      ref={searchRef}
     >
       <Input
         placeholder="Поиск по сайту"
         onFocus={setActive}
         onBlur={setActive}
+        value={value}
+        onChange={e => setValue(e.target.value)}
       />
+
+      <div className={c.searched_container} data-active={searched.length > 0} >
+        {searched.map(el => (
+          <Link
+            key={el.item_id}
+            href={Pages.item(el.item_id)}
+          >
+            {el.name}
+          </Link>
+        ))}
+      </div>
 
       <button>
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 18C11.846 18 13.543 17.365 14.897 16.312L19.293 20.708L20.707 19.294L16.311 14.898C17.365 13.543 18 11.846 18 10C18 5.589 14.411 2 10 2C5.589 2 2 5.589 2 10C2 14.411 5.589 18 10 18ZM10 4C13.309 4 16 6.691 16 10C16 13.309 13.309 16 10 16C6.691 16 4 13.309 4 10C4 6.691 6.691 4 10 4Z" fill="#7A7A7A"/></svg>

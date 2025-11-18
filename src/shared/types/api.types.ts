@@ -20,15 +20,24 @@ export type TGetMainDataResponse = {
   items: {
     new: TItem[]
     popular: TItem[]
-    recent: TItem[]
   }
   categories: {
     list: TCategoriesList
     show: TCategory[]
   }
   slides: TSlide[]
-  news: TNewsItem[]
+  news: {
+    list: TNewsItem[]
+    show: TNewsItem[]
+  }
   common: TEditCommonDataResponse
+}
+
+export type TQueryRecentItemsRequest = {
+  recent: string[]
+}
+export type TQueryRecentItemsResponse = {
+  recent: TItem[]
 }
 
 export type TQueryItemDataRequest = {
@@ -66,6 +75,7 @@ export type TEditItemResponse = {
 
 export type TDeleteItemRequest = {
   id: string
+  item_id: string
 }
 export type TDeleteItemResponse = {
   list: TItem[]
@@ -112,4 +122,44 @@ export type TEditCommonDataResponse = {
   about: string
   phones: string
   address: string
+}
+
+export type TSearchItemsRequest = {
+  search: string
+}
+export type TSearchItemsResponse = {
+  list: Pick<TItem, 'item_id'|'name'>[]
+}
+
+export type TGetNewsListRequest = {
+  admin?: true
+}
+export type TGetNewsListResponse<T extends 'admin'|'cutted' = 'cutted'> = {
+  list: TNewsItem<T>[]
+}
+
+export type TGetNewsItemRequest = {
+  id: string
+}
+export type TGetNewsItemResponse = {
+  news_item: TNewsItem
+}
+
+export type TAddNewsItemRequest = Omit<TNewsItem<'admin'>, 'id'|'preview'>
+export type TAddNewsItemResponse = {
+  list: TNewsItem<'admin'>[]
+}
+
+export type TEditNewsItemRequest = Omit<TNewsItem<'admin'>, 'preview'> & {
+  preview_name: string
+}
+export type TEditNewsItemResponse = {
+  list: TNewsItem<'admin'>[]
+}
+
+export type TDeleteNewsItemRequest = {
+  id: string
+}
+export type TDeleteNewsItemResponse = {
+  list: TNewsItem<'admin'>[]
 }

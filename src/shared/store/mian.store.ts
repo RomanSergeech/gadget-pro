@@ -6,7 +6,7 @@ import type { TNewsItem } from '../types/news.types'
 import type { TCategoriesList, TCategory } from '../types/category.types'
 import type { TItem } from '../types/item.type'
 import type { TSlide } from '../types/slide.types'
-import type { TMakeOrderRequest } from '../types/api.types'
+import type { TMakeOrderRequest, TSearchItemsRequest, TSearchItemsResponse } from '../types/api.types'
 
 
 interface TState {
@@ -14,7 +14,10 @@ interface TState {
   popular: TItem[]
   recent: TItem[]
   slides: TSlide[]
-  news: TNewsItem[]
+  news: {
+    list: TNewsItem<'cutted'>[]
+    show: TNewsItem<'cutted'>[]
+  }
   categories_list: TCategory[]
   categories: TCategoriesList
   loading: boolean
@@ -25,11 +28,14 @@ interface TState {
     phones: string
     address: string
   }
+  searched: TSearchItemsResponse['list']
 }
 
 interface TStore extends TState {
   queryMainData: () => Promise<void>
+  queryRecentItems: () => Promise<void>
   makeOrder: ( sendData: TMakeOrderRequest ) => Promise<void>
+  searchItems: ( sendData: TSearchItemsRequest ) => Promise<void>
 }
 
 const initialState: TState = {
@@ -37,7 +43,7 @@ const initialState: TState = {
   popular: [],
   recent: [],
   slides: [],
-  news: [],
+  news: { list: [], show: [] },
   categories_list: [],
   categories: { arr: [], obj: {} },
   loading: true,
@@ -47,11 +53,12 @@ const initialState: TState = {
     about: '',
     phones: '',
     address: '',
-  }
+  },
+  searched: []
 }
 
 export const useMainStore = create<TStore>(
-  (set) => ({
+  (set, get) => ({
     ...initialState,
 
     queryMainData: () => tryCatch({
@@ -60,10 +67,11 @@ export const useMainStore = create<TStore>(
 
         const { data } = await ApiService.queryMainData()
 
+        get().queryRecentItems()
+
         set({
           new: data.items.new,
           popular: data.items.popular,
-          recent: data.items.recent,
           slides: data.slides,
           news: data.news,
           categories: data.categories.list,
@@ -73,6 +81,19 @@ export const useMainStore = create<TStore>(
       },
       onFinally: () => {
         set({ loading: false })
+      }
+    }),
+
+    queryRecentItems: () => tryCatch({
+      callback: async () => {
+
+        const recent: string[] = JSON.parse(localStorage.getItem('recent') || '[]')
+
+        const { data } = await ApiService.queryRecentItems({ recent })
+
+        set({
+          recent: data.recent
+        })
       }
     }),
 
@@ -86,6 +107,15 @@ export const useMainStore = create<TStore>(
       },
       onFinally: () => {
         set({ loading: false })
+      }
+    }),
+
+    searchItems: ( sendData ) => tryCatch({
+      callback: async () => {
+
+        const { data } = await ApiService.searchItems(sendData)
+
+        set({ searched: data.list })
       }
     }),
 
