@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { arrayFromTo, cn } from '@/shared/utils'
 import { useMainStore } from '@/shared/store/mian.store'
@@ -66,7 +67,13 @@ const SliderSection = () => {
               </div>
 
               <div className={c.image_wrapper} >
-                <img src={el.image} />
+                <Image
+                  src={el.image}
+                  alt=''
+                  width={550}
+                  height={550}
+                  priority
+                />
               </div>
             </div>
           </div>

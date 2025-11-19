@@ -1,3 +1,5 @@
+'use client'
+
 import { cn } from "@/shared/utils"
 import { Pages } from "@/shared/config/pages.config"
 

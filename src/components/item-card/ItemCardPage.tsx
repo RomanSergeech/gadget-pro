@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react'
 import Link from 'next/link'
-import { Button } from '@/shared/UI'
+import { Button, Loader } from '@/shared/UI'
 import { Gallery } from './components/Gallery'
 import { Items, OrderModal } from '@/widgets'
 import { useMainStore } from '@/shared/store/mian.store'
@@ -45,22 +45,14 @@ const ItemCardPage = ({ item_id }: Props) => {
     if ( !item ) return
     useCartStore.getState().deleteFromCart(item.id)
   }
-  
+
   if ( loading ) return (
     <div className={c.page_body} >
       <div className={c.top} >
         <ul>
           <li><Link href={Pages.catalog()} >Каталог</Link></li>
-          {item?.categories.map(cat_key => (
-            <li key={cat_key} >
-              <Link href={Pages.catalog(cat_key)} >
-                {categories.obj[cat_key]?.value}
-              </Link>
-            </li>
-          ))}
-          <li>
-            <b>{item?.name}</b>
-          </li>
+          {!loading && <li><b>{item?.name}</b></li>}
+          {loading && <Loader fontSize={10} />}
         </ul>
       </div>
     </div>
@@ -85,7 +77,7 @@ const ItemCardPage = ({ item_id }: Props) => {
         </ul>
       </div>
 
-      <Gallery />
+      <Gallery item={item} />
 
       <div className={c.description_wrapper} >
         <h1>{item?.name}</h1>

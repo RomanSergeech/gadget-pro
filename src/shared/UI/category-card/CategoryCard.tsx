@@ -15,7 +15,10 @@ const CategoryCard = ({ category }: Props) => {
       className={c.category}
     >
       <div className={c.image_wrapper} >
-        <img src={category.preview || undefined} />
+        <img
+          src={category.preview || undefined}
+          loading='lazy'
+        />
       </div>
 
       <p>{category.value}</p>

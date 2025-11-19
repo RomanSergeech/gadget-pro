@@ -1,13 +1,14 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { Button } from '@/shared/UI'
 import { ItemAvailability, ItemLabels } from '@/shared/config/items.config'
 import { getPrice } from '@/shared/utils'
+import { Pages } from '@/shared/config/pages.config'
+import { useCartStore } from '@/shared/store/cart.store'
 
 import type { TItem } from '@/shared/types/item.type'
 
 import c from './itemCard.module.scss'
-import { Pages } from '@/shared/config/pages.config'
-import { useCartStore } from '@/shared/store/cart.store'
 
 
 interface Props {
@@ -43,7 +44,13 @@ const ItemCard = ({ item, showLabel }: Props) => {
       }
 
       <Link href={Pages.item(item.item_id)} className={c.image_wrapper} >
-        <img src={item.preview || ''} />
+        <Image
+          src={item.preview || ''}
+          alt={item.name}
+          width={250}
+          height={200}
+          loading='lazy'
+        />
       </Link>
 
       <Link href={Pages.item(item.item_id)} className={c.item_name} >{item.name}</Link>

@@ -2,19 +2,19 @@
 
 import { useState } from 'react'
 import { Swiper as SwiperElem, SwiperSlide } from 'swiper/react'
-import { FreeMode, Thumbs } from 'swiper/modules';
-import { useItemStore } from '@/shared/store/item.store'
+import Image from 'next/image'
+import { FreeMode, Thumbs } from 'swiper/modules'
+
 import type Swiper from 'swiper'
+import type { TItem } from '@/shared/types/item.type'
 
 import c from '../itemCard.module.scss'
 
 
 interface Props {
- 
+  item: TItem | null
 }
-const Gallery = ({  }: Props) => {
-
-  const item = useItemStore(state => state.item)
+const Gallery = ({ item }: Props) => {
 
   const [thumbsSwiper, setThumbsSwiper] = useState<Swiper|null>(null)
 
@@ -30,7 +30,13 @@ const Gallery = ({  }: Props) => {
       >
         {item?.gallery.map((el, i) => (
           <SwiperSlide key={i} className={c.slide} >
-            <img src={el} />
+            <Image
+              src={el}
+              alt={item.name}
+              width={400}
+              height={400}
+              priority
+            />
           </SwiperSlide>
         ))}
       </SwiperElem>
@@ -54,7 +60,13 @@ const Gallery = ({  }: Props) => {
         >
           {item?.gallery.map((el, i) => (
             <SwiperSlide key={i} className={c.slide} >
-              <img src={el} />
+              <Image
+                src={el}
+                alt={item.name}
+                width={85}
+                height={85}
+                priority
+              />
             </SwiperSlide>
           ))}
         </SwiperElem>

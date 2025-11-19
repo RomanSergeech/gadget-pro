@@ -17,7 +17,7 @@ interface TStore extends TState {
 
 const initialState: TState = {
   item: null,
-  loading: false
+  loading: true
 }
 
 export const useItemStore = create<TStore>(

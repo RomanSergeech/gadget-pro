@@ -14,6 +14,7 @@ import type { NextConfig } from "next"
 // `
 
 const nextConfig: NextConfig = {
+  reactStrictMode: true,
   headers: async () => {
     return [
       {
@@ -29,6 +30,12 @@ const nextConfig: NextConfig = {
         ]
       }
     ]
+  },
+  images: {
+    remotePatterns: [{
+      protocol: 'https',
+      hostname: 'w0wchmds-4500.euw.devtunnels.ms'
+    }]
   }
 }
 

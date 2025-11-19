@@ -34,7 +34,7 @@ type TDataObj<T, K extends keyof T> = {
   [key in K]: { value: T[key], onChange: ( v: T[key] ) => void }
 }
 
-type Item = Omit<TItem, 'id'|'item_id'|'preview'|'gallery'>
+type Item = Omit<TItem, 'id'|'item_id'|'preview'|'gallery'|'meta'>
 
 type TData = Partial<TDataObj<Item, keyof Item>> & {
   preview: {
@@ -45,6 +45,7 @@ type TData = Partial<TDataObj<Item, keyof Item>> & {
     loadedImages: { loadedUrl: string, loadedFile: Blob|null }[]
     setLoadedImg: (img: { loadedUrl: string, loadedFile: Blob } | null, url: string) => void
   },
+  meta: { value: TItem['meta'], onChange: <K extends keyof TItem['meta']>( key: K, v: TItem['meta'][K] ) => void }
 }
 
 interface ModalProps {
@@ -160,6 +161,22 @@ const ActionModal = ({ title, data, active, setActive, onSubmit }: ModalProps) =
           setData={v => data.specs?.onChange(v)}
         />
 
+        <div className={c.meta} >
+          <label>Metadata</label>
+          <Input
+            label='Title'
+            placeholder='Title'
+            value={data?.meta?.value.title}
+            onChange={e => data?.meta?.onChange('title', e.target.value)}
+          />
+          <Input
+            label='Description'
+            placeholder='Description'
+            value={data?.meta?.value.description}
+            onChange={e => data?.meta?.onChange('description', e.target.value)}
+          />
+        </div>
+
         <Button type='submit' >Save</Button>
 
       </form>
@@ -232,9 +249,6 @@ interface GalleryProps {
   }
 }
 const Gallery = ({ gallery }: GalleryProps) => {
-
-  // const [imagesCount, setImagesCount] = useState(gallery.loadedUrls.length)
-
   return (
     <div className={c.gallery} >
 

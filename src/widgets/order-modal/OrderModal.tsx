@@ -88,6 +88,7 @@ const OrderModal = ({ countItems, items_count, amount, button }: Props) => {
           <Input
             autoComplete='name'
             label='Ваше Имя, Фамилия*'
+            aria-label='Ваше Имя, Фамилия*'
             placeholder='Имя'
             name={EFormFields.name}
             required
@@ -97,6 +98,7 @@ const OrderModal = ({ countItems, items_count, amount, button }: Props) => {
             type='tel'
             autoComplete='tel'
             label='Ваш телефон*'
+            aria-label='Ваш телефон*'
             placeholder='Tелефон'
             name={EFormFields.phone}
             required
@@ -106,12 +108,14 @@ const OrderModal = ({ countItems, items_count, amount, button }: Props) => {
             type='email'
             autoComplete='email'
             label='Ваш E-mail'
+            aria-label='Ваш Email'
             placeholder='Email'
             name={EFormFields.email}
           />
 
           <Textarea
             label='Примечания к заказу'
+            aria-label='Примечания к заказу'
             placeholder='Сообщение'
             name={EFormFields.message}
           />

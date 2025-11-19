@@ -29,12 +29,6 @@ const List = () => {
         <ItemCard key={item.id} item={item} />
       ))}
 
-      {/* {loading && (
-        <div className={c.loader_wrapper} >
-          <Loader fontSize={12} />
-        </div>
-      )} */}
-
     </div>
 
     <Pagination

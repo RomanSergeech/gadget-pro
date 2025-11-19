@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { Button } from '../button/Button'
 import { Pages } from '@/shared/config/pages.config'
 
@@ -15,7 +16,13 @@ const NewsCard = ({ item }: Props) => {
     <div className={c.news_card} >
       
       <div className={c.image_wrapper} >
-        <img src={item.preview || undefined} />
+        <Image
+          src={item.preview || ''}
+          alt={item.title}
+          width={500}
+          height={340}
+          loading='lazy'
+        />
       </div>
 
       <div className={c.info} >

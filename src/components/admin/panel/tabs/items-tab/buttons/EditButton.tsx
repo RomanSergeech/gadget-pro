@@ -16,7 +16,8 @@ const EditButton = ({ data }: Props) => {
   const [active, setActive] = useState<boolean | null>(null)
   const [preview, setPreview] = useState<{loadedUrl:string,loadedFile:Blob|null}|null>(null)
   const [gallery, setGallery] = useState<{loadedUrl:string,loadedFile:Blob|null}[]>([])
-  const [item, setItem] = useState(data)
+  const [item, setItem] = useState(data) 
+  const [meta, setMeta] = useState<TItem['meta']>({ title: '', description: '' })
 
   useEffect(() => {
     setItem(structuredClone(data))
@@ -65,6 +66,8 @@ const EditButton = ({ data }: Props) => {
     formData.set('gallery_names', JSON.stringify(gallery_names))
 
     formData.set('specs', JSON.stringify(item.specs))
+
+    formData.set('meta', JSON.stringify(meta))
 
     formData.set('id', data.id)
     formData.set('item_id', data.item_id)
@@ -121,6 +124,7 @@ const EditButton = ({ data }: Props) => {
         tags: { value: item.tags, onChange: v => changeHandler(v, 'tags') },
         description: { value: item.description, onChange: v => changeHandler(v, 'description') },
         specs: { value: item.specs, onChange: v => changeHandler(v, 'specs') },
+        meta: { value: meta, onChange: (k, v) => setMeta(p => ({ ...p, [k]: v }))}
       }}
     />
   </>)

@@ -2,6 +2,7 @@ import { Button } from "@/shared/UI"
 import { useState } from "react"
 import { ActionModal } from "./ActionModal"
 import { useAdminStore } from "@/shared/store/admin.store"
+import type { TItem } from "@/shared/types/item.type"
 
 
 const AddButton = () => {
@@ -11,6 +12,7 @@ const AddButton = () => {
   const [preview, setPreview] = useState<{loadedUrl:string,loadedFile:Blob}|null>(null)
   const [gallery, setGallery] = useState<{loadedUrl:string,loadedFile:Blob}[]>([])
   const [specs, setSpecs] = useState<string[]>([])
+  const [meta, setMeta] = useState<TItem['meta']>({ title: '', description: '' })
 
   const onSubmit = async ( e: React.FormEvent<HTMLFormElement> ) => {
     e.preventDefault()
@@ -27,6 +29,8 @@ const AddButton = () => {
     }
 
     formData.set('specs', JSON.stringify(specs))
+
+    formData.set('meta', JSON.stringify(meta))
 
     useAdminStore.getState().addItem(formData)
       .then(() => {
@@ -68,6 +72,7 @@ const AddButton = () => {
           setLoadedImg: (loadedImg, url) => galleryImageHandler(loadedImg, url),
         },
         specs: { value: specs, onChange: v => setSpecs(v) },
+        meta: { value: meta, onChange: (k, v) => setMeta(p => ({ ...p, [k]: v }))}
       }}
     />
   </>)

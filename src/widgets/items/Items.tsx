@@ -44,7 +44,7 @@ const Items = ({ items, className }: ItemsProps) => {
             spaceBetween: 20
           }
         }}
-        loop
+        loop={items.length > SLIDES_PER_VIEW}
         className={c.items_wrapper}
       >
         {items.map(el => (

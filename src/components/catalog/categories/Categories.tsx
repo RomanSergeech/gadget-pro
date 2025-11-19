@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { useMainStore } from '@/shared/store/mian.store'
 import { useCategoriesStore } from '@/shared/store/categories.store'
 import { Category } from './components/Category'
@@ -9,7 +10,6 @@ import { useDebounce } from '@/shared/hooks'
 import { Availability } from './components/Availability'
 
 import c from './categories.module.scss'
-import { useSearchParams } from 'next/navigation'
 
 
 const Categories = () => {
@@ -30,7 +30,7 @@ const Categories = () => {
   }, [])
 
   useEffect(() => {
-    const params = new URLSearchParams(searchParams)
+    const params = new URLSearchParams(searchParams || '')
     const categoryParam = params.get('category') || undefined
 
     if ( debouncedSearchValue && Object.keys(debouncedSearchValue).length > 0 && !categoryParam ) {

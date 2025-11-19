@@ -5,18 +5,21 @@ import type { TAddCategoryResponse, TAddItemResponse, TAddNewsItemResponse, TChe
 
 
 const $api = axios.create({
-  baseURL: 'https://w0wchmds-4500.euw.devtunnels.ms',
+  baseURL: process.env.NEXT_PUBLIC_DOMAIN,
   withCredentials: true
 })
 
 $api.interceptors.request.use(config => {
-  const token = localStorage.getItem('token')
 
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`
-    config.headers.Domain = location.host
-  }
+  if (typeof window !== 'undefined') {
+    const token = localStorage?.getItem('token')
   
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+      config.headers.Domain = location.host
+    }
+  }
+
   return config
 })
 
@@ -33,7 +36,7 @@ const checkError = <T>( res: AxiosResponse<T> ): AxiosResponse<T> => {
   return res
 }
 
-class ApiService {
+class Service {
 
   async login( reqData: TLoginRequest ) {
     return checkError(await $api.post<TLoginResponse>('/api/login', reqData))
@@ -45,6 +48,10 @@ class ApiService {
 
   async queryItemsList( sendData: TQueryItemsListRequest ) {
     return checkError(await $api.post<TQueryItemsListResponse>('/api/item/list', sendData))
+  }
+
+  async getItemsId() {
+    return checkError(await $api.get<{ items_id: string[] }>('/api/item/list/id'))
   }
 
   async addItem( formData: FormData ) {
@@ -121,4 +128,6 @@ class ApiService {
 
 }
 
-export default new ApiService()
+const ApiService = new Service()
+
+export default ApiService

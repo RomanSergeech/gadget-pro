@@ -34,7 +34,7 @@ const Menu = () => {
           {MENU.map(el => (
             <li
               key={el.key}
-              data-active={!!match(el.link)(pathname)}
+              data-active={!!match(el.link)(pathname || '')}
             >
               <Link href={el.link} onClick={() => setActive(false)} >{el.value}</Link>
             </li>

@@ -17,7 +17,7 @@ const Category = ({ category, parent_cat_key }: Props) => {
   const pathname = usePathname()
 
   useEffect(() => {
-    const params = new URLSearchParams(searchParams)
+    const params = new URLSearchParams(searchParams || '')
     const categoryParam = params.get('category') || undefined
     if ( categoryParam && category.key === categoryParam ) {
       const cat_keys = {}

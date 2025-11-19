@@ -12,4 +12,8 @@ export type TItem = {
   tags: string[]
   description: string
   specs: string[]
+  meta: {
+    title: string
+    description: string
+  }
 }

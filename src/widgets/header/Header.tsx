@@ -75,7 +75,7 @@ const Header = () => {
           {MENU.map(el => (
             <li
               key={el.key}
-              data-active={!!match(el.link)(pathname)}
+              data-active={!!match(el.link)(pathname || '')}
             >
               <Link href={el.link} >{el.value}</Link>
             </li>

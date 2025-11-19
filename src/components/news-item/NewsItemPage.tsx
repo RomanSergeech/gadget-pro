@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useEffect, useRef } from 'react'
+import Image from 'next/image'
 import { useNewsItemStore } from '@/shared/store/newsItem.store'
 import { Pages } from '@/shared/config/pages.config'
 import { Loader } from '@/shared/UI'
@@ -28,20 +29,36 @@ const NewsItemPage = ({ id }: Props) => {
     }
   }, [news_item])
 
+  if ( !news_item?.title ) {
+    return (
+      <div className={c.page_body} >
+        <div className={c.top} >
+          <ul>
+            <li><Link href={Pages.news()} >Новости</Link></li>
+            <li><Loader fontSize={10} /></li>
+          </ul>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className={c.page_body} >
 
       <div className={c.top} >
         <ul>
           <li><Link href={Pages.news()} >Новости</Link></li>
-          <li>
-            <b>{news_item?.title}</b>
-            {!news_item?.title && <Loader fontSize={10} />}
-          </li>
+          <li><b>{news_item?.title}</b></li>
         </ul>
       </div>
 
-      <img src={news_item?.preview || undefined} />
+      <Image
+        src={news_item?.preview || ''}
+        alt={news_item?.title || 'Gadget Pro News'}
+        width={450}
+        height={400}
+        priority
+      />
 
       <article ref={containerRef} ></article>
 
