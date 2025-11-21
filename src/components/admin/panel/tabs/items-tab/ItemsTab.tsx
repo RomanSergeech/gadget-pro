@@ -6,6 +6,7 @@ import { EditButton } from './buttons/EditButton'
 import { DeleteButton } from './buttons/DeleteButton'
 import { getPrice } from '@/shared/utils'
 import { ItemAvailability } from '@/shared/config/items.config'
+import { Pages } from '@/shared/config/pages.config'
 
 import c from './itemsTab.module.scss'
 import cl from '../../../adminPage.module.scss'
@@ -42,7 +43,7 @@ const ItemsTab = ({  }: Props) => {
                 <img src={item.preview} />
               }
             </li>
-            <li><Link href={item.preview} >{item.name}</Link></li>
+            <li><Link href={Pages.item(item.item_id)} target='_blank' >{item.name}</Link></li>
             <li>{getPrice(item.price)}</li>
             <li data-available={item.available} >
               {ItemAvailability[item.available as keyof typeof ItemAvailability]?.value}

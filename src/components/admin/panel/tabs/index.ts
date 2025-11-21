@@ -1,4 +1,6 @@
 
+export { OrdersTab } from "./orders-tab/OrdersTab"
+
 export { NewsTab } from "./news-tab/NewsTab"
 
 export { CommonTab } from "./common-tab/CommonTab"

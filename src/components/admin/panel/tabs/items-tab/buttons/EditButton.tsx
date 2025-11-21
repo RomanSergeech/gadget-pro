@@ -26,6 +26,7 @@ const EditButton = ({ data }: Props) => {
       loadedFile: null
     })
     setGallery(data.gallery.map(el => ({ loadedUrl: el, loadedFile: null })))
+    setMeta(data.meta || { title: '', description: '' })
   }, [data])
 
   const onSubmit = async ( e: React.FormEvent<HTMLFormElement> ) => {
@@ -66,6 +67,8 @@ const EditButton = ({ data }: Props) => {
     formData.set('gallery_names', JSON.stringify(gallery_names))
 
     formData.set('specs', JSON.stringify(item.specs))
+
+    console.log(meta);
 
     formData.set('meta', JSON.stringify(meta))
 

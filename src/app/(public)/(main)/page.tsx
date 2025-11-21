@@ -1,7 +1,9 @@
 import { MainPage } from '@/components/main/MainPage'
 
 const Page = () => {
-  return <MainPage />
+  return (
+    <MainPage />
+  )
 }
 
 export default Page

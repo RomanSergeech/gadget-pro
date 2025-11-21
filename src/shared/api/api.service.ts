@@ -1,7 +1,7 @@
 import axios from "axios"
 
 import type { AxiosResponse } from "axios"
-import type { TAddCategoryResponse, TAddItemResponse, TAddNewsItemResponse, TCheckAuthResponse, TDeleteCategoryRequest, TDeleteCategoryResponse, TDeleteItemRequest, TDeleteItemResponse, TDeleteNewsItemRequest, TDeleteNewsItemResponse, TEditCategoryResponse, TEditCommonDataRequest, TEditCommonDataResponse, TEditItemResponse, TEditNewsItemResponse, TGetCategoriesListResponse, TGetMainDataResponse, TGetNewsItemRequest, TGetNewsItemResponse, TGetNewsListRequest, TGetNewsListResponse, TLoginRequest, TLoginResponse, TMakeOrderRequest, TMakeOrderResponse, TQueryItemDataRequest, TQueryItemDataResponse, TQueryItemsListRequest, TQueryItemsListResponse, TQueryRecentItemsRequest, TQueryRecentItemsResponse, TSearchItemsRequest, TSearchItemsResponse } from "../types/api.types"
+import type { TAddCategoryResponse, TAddItemResponse, TAddNewsItemResponse, TCheckAuthResponse, TDeleteCategoryRequest, TDeleteCategoryResponse, TDeleteItemRequest, TDeleteItemResponse, TDeleteNewsItemRequest, TDeleteNewsItemResponse, TDeleteOrderRequest, TDeleteOrderResponse, TEditCategoryResponse, TEditCommonDataRequest, TEditCommonDataResponse, TEditItemResponse, TEditNewsItemResponse, TGetCategoriesListResponse, TGetMainDataResponse, TGetNewsItemRequest, TGetNewsItemResponse, TGetNewsListRequest, TGetNewsListResponse, TGetOrdersListResponse, TLoginRequest, TLoginResponse, TMakeOrderRequest, TMakeOrderResponse, TQueryItemDataRequest, TQueryItemDataResponse, TQueryItemMetadataResponse, TQueryItemsListRequest, TQueryItemsListResponse, TQueryRecentItemsRequest, TQueryRecentItemsResponse, TSearchItemsRequest, TSearchItemsResponse } from "../types/api.types"
 
 
 const $api = axios.create({
@@ -86,12 +86,24 @@ class Service {
     return checkError(await $api.post<TGetMainDataResponse>('/api/main'))
   }
 
+  async getOrdersList() {
+    return checkError(await $api.get<TGetOrdersListResponse>('/api/orders'))
+  }
+
+  async deleteOrder( sendData: TDeleteOrderRequest ) {
+    return checkError(await $api.post<TDeleteOrderResponse>('/api/order/delete', sendData))
+  }
+
   async queryRecentItems( sendData: TQueryRecentItemsRequest ) {
     return checkError(await $api.post<TQueryRecentItemsResponse>('/api/item/recent', sendData))
   }
 
   async queryItemData( sendData: TQueryItemDataRequest ) {
     return checkError(await $api.post<TQueryItemDataResponse>('/api/item/get', sendData))
+  }
+
+  async queryItemMetadata( sendData: TQueryItemDataRequest ) {
+    return checkError(await $api.post<TQueryItemMetadataResponse>('/api/item/meta', sendData))
   }
 
   async makeOrder( sendData: TMakeOrderRequest ) {

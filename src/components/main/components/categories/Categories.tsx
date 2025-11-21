@@ -1,3 +1,5 @@
+'use client'
+
 import { useMainStore } from '@/shared/store/mian.store'
 import { CategoryCard } from '@/shared/UI'
 

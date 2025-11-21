@@ -2,11 +2,12 @@ import { create } from 'zustand'
 import ApiService from '../api/api.service'
 import { tryCatch } from '../utils'
 
-import type { TDeleteCategoryRequest, TDeleteItemRequest, TDeleteNewsItemRequest, TEditCommonDataRequest, TEditCommonDataResponse, TLoginRequest } from '../types/api.types'
+import type { TDeleteCategoryRequest, TDeleteItemRequest, TDeleteNewsItemRequest, TDeleteOrderRequest, TEditCommonDataRequest, TEditCommonDataResponse, TLoginRequest } from '../types/api.types'
 import type { TNewsItem } from '../types/news.types'
 import type { TCategoriesList } from '../types/category.types'
 import type { TItem } from '../types/item.type'
 import type { TSlide } from '../types/slide.types'
+import type { TOrder } from '../types/order.types'
 
 
 interface TState {
@@ -17,6 +18,7 @@ interface TState {
   categories: TCategoriesList
   news: TNewsItem<'admin'>[]
   common: TEditCommonDataResponse
+  orders: TOrder[]
 }
 
 interface TStore extends TState {
@@ -34,6 +36,7 @@ interface TStore extends TState {
   addNewsItem: ( formData: FormData ) => Promise<void>
   editNewsItem: ( formData: FormData ) => Promise<void>
   deleteNewsItem: ( sendData: TDeleteNewsItemRequest ) => Promise<void>
+  deleteOrder: ( sendData: TDeleteOrderRequest ) => Promise<void>
 }
 
 const initialState: TState = {
@@ -48,7 +51,8 @@ const initialState: TState = {
     about: '',
     phones: '',
     address: ''
-  }
+  },
+  orders: []
 }
 
 export const useAdminStore = create<TStore>(
@@ -104,6 +108,12 @@ export const useAdminStore = create<TStore>(
 
     queryAdminData: () => tryCatch({
       callback: async () => {
+
+        const orders = await ApiService.getOrdersList()
+
+        set({
+          orders: orders.data.orders
+        })
 
         const items = await ApiService.queryItemsList({})
 
@@ -215,6 +225,17 @@ export const useAdminStore = create<TStore>(
 
         set({
           news: data.list
+        })
+      }
+    }),
+
+    deleteOrder: ( sendData ) => tryCatch({
+      callback: async () => {
+
+        const { data } = await ApiService.deleteOrder(sendData)
+
+        set({
+          orders: data.orders
         })
       }
     }),

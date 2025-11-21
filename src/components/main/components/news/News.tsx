@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link'
 import { useMainStore } from '@/shared/store/mian.store'
 import { Button, NewsCard } from '@/shared/UI'

@@ -1,6 +1,7 @@
 import type { TCategoriesList, TCategory } from "./category.types"
 import type { TItem } from "./item.type"
 import type { TNewsItem } from "./news.types"
+import type { TOrder } from "./order.types"
 import type { TSlide } from "./slide.types"
 
 
@@ -33,6 +34,17 @@ export type TGetMainDataResponse = {
   common: TEditCommonDataResponse
 }
 
+export type TGetOrdersListResponse = {
+  orders: TOrder[]
+}
+
+export type TDeleteOrderRequest = {
+  id: string
+}
+export type TDeleteOrderResponse = {
+  orders: TOrder[]
+}
+
 export type TQueryRecentItemsRequest = {
   recent: string[]
 }
@@ -45,6 +57,9 @@ export type TQueryItemDataRequest = {
 }
 export type TQueryItemDataResponse = {
   item: TItem
+}
+export type TQueryItemMetadataResponse = {
+  meta: TItem['meta']
 }
 
 export type TQueryItemsListRequest = {

@@ -1,7 +1,7 @@
 import { Suspense, use } from "react"
 import { ItemCardPage } from "@/components/item-card/ItemCardPage"
-import { Loader } from "@/shared/UI"
 import ApiService from "@/shared/api/api.service"
+import { Loader } from "@/shared/UI"
 
 import type { Metadata } from "next"
 
@@ -13,18 +13,17 @@ interface MetadataProps {
 }
 export async function generateMetadata({ params }: MetadataProps): Promise<Metadata> {
   const { item_id } = await params
-  const { data } = await ApiService.queryItemData({ item_id })
-  if ( !data.item.meta || data.item.meta.title === '' ) return { title: data.item.name }
+  const { data } = await ApiService.queryItemMetadata({ item_id })
   return {
-    title: data.item.meta.title,
-    description: data.item.meta.description,
+    title: data.meta.title,
+    description: data.meta.description
   }
 }
 
 const Page = ({ params }: { params: Promise<{ item_id: string }> }) => {
   const { item_id } = use(params)
   return (
-    <Suspense fallback={<Loader fullScreen />} >
+    <Suspense fallback={<Loader />} >
       <ItemCardPage item_id={item_id} />
     </Suspense>
   )

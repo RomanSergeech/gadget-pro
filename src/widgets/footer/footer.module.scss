@@ -43,6 +43,7 @@
     
     & > div {
       grid-column: 1/3;
+      min-height: 39px;
     }
 
     svg {
@@ -51,6 +52,7 @@
   }
   
   p {
+    min-height: 39px;
     text-align: end;
     font-weight: 600;
 

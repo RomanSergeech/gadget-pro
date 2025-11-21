@@ -4,16 +4,13 @@ import { AddButton } from './buttons/AddButton'
 import { useAdminStore } from '@/shared/store/admin.store'
 import { EditButton } from './buttons/EditButton'
 import { DeleteButton } from './buttons/DeleteButton'
+import { Pages } from '@/shared/config/pages.config'
 
 import c from './newsTab.module.scss'
 import cl from '../../../adminPage.module.scss'
-import { Pages } from '@/shared/config/pages.config'
 
 
-interface Props {
-  
-}
-const NewsTab = ({  }: Props) => {
+const NewsTab = () => {
 
   const list = useAdminStore(state => state.news)
 

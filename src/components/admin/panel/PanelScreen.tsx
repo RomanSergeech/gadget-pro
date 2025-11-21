@@ -1,13 +1,13 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { CategoriesTab, CommonTab, ItemsTab, NewsTab } from './tabs'
-import { useAdminStore } from '@/shared/store/admin.store'
+import { useState } from 'react'
+import { CategoriesTab, CommonTab, ItemsTab, NewsTab, OrdersTab } from './tabs'
 
 import c from '../adminPage.module.scss'
 
 
 const enum ETabs {
+  orders='orders',
   common='common',
   items='items',
   categories='categories',
@@ -15,6 +15,7 @@ const enum ETabs {
 }
 
 const TABS = [
+  { key: ETabs.orders, value: 'Заказы' },
   { key: ETabs.common, value: 'Общие' },
   { key: ETabs.items, value: 'Товары' },
   { key: ETabs.categories, value: 'Категории' },
@@ -22,6 +23,7 @@ const TABS = [
 ]
 
 const TABS_COMPONENTS: Record<`${ETabs}`, React.ReactElement> = {
+  [ETabs.orders]: <OrdersTab />,
   [ETabs.common]: <CommonTab />,
   [ETabs.items]: <ItemsTab />,
   [ETabs.categories]: <CategoriesTab />,
@@ -29,16 +31,9 @@ const TABS_COMPONENTS: Record<`${ETabs}`, React.ReactElement> = {
 }
 
 
-interface Props {
-  
-}
-const PanelScreen = ({  }: Props) => {
+const PanelScreen = () => {
 
-  const [tab, setTab] = useState<`${ETabs}`>(ETabs.items)
-
-  useEffect(() => {
-    useAdminStore.getState().queryAdminData()
-  }, [])
+  const [tab, setTab] = useState<`${ETabs}`>(ETabs.orders)
 
   return (
     <div className={c.panel_screen} >

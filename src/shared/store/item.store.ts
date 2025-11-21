@@ -12,7 +12,7 @@ interface TState {
 }
 
 interface TStore extends TState {
-  queryItemData: ( item_id: string ) => void
+  queryItemData: ( item_id: string ) => Promise<void>
 }
 
 const initialState: TState = {
